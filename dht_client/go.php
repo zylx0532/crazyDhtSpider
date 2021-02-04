@@ -1,7 +1,7 @@
 <?php
 /*
  * 安装swoole pecl install swoole
- * 设置服务器 ulimit -n 100000
+ * 设置服务器 ulimit -n 65535
  * 记得放开防火墙6882端口
  */
 error_reporting(E_ERROR);
@@ -10,7 +10,7 @@ ini_set("memory_limit", "-1");
 define('BASEPATH', dirname(__FILE__));
 $config = require_once BASEPATH . '/config.php';
 define('MAX_REQUEST', 0);// worker 进程的最大任务数,根据自己的实际情况设置
-define('AUTO_FIND_TIME', 5000);//定时寻找节点时间间隔 /毫秒
+define('AUTO_FIND_TIME', 3000);//定时寻找节点时间间隔 /毫秒
 define('MAX_NODE_SIZE', 300);//保存node_id最大数量,不要设置太大，没有必要
 define('BIG_ENDIAN', pack('L', 1) === pack('N', 1));
 
@@ -34,7 +34,6 @@ $bootstrap_nodes = array(
 
 //记录启动日志
 Func::Logs(date('Y-m-d H:i:s', time()) . " - 服务启动..." . PHP_EOL, 1);
-//swoole_set_process_name("php_dht_client_worker");
 
 //一键协程HOOK
 Co::set(['hook_flags' => SWOOLE_HOOK_ALL]);
@@ -88,7 +87,6 @@ $serv->on('Packet', function ($serv, $data, $fdinfo) {
         var_dump($e->getMessage());
     }
 });
-
 
 $serv->on('task', function (Swoole\Server $server, Swoole\Server\Task $task) {
     global $config;

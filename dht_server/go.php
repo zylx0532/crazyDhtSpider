@@ -12,9 +12,9 @@ $config = require_once BASEPATH . '/config.php';
 require_once BASEPATH . '/inc/Func.class.php';
 require_once BASEPATH . '/inc/Bencode.class.php';
 require_once BASEPATH . '/inc/Base.class.php';
-require_once BASEPATH . '/inc/Db.class.php';
 require_once "../vendor/autoload.php";
 use Medoo\Medoo;
+
 //记录启动日志
 Func::Logs(date('Y-m-d H:i:s', time()) . " - 服务启动..." . PHP_EOL, 1);
 
@@ -59,6 +59,7 @@ $serv->on('Packet', function ($serv, $data, $clientInfo) {
             } else {
                 $length = $rs['length'];
             }
+            $files=$files='0'?'':$files;
             $serv->mysql->insert("bt", [
                 'name' => $rs['name'],
                 'keywords' => Func::getKeyWords($rs['name']),
