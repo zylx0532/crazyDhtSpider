@@ -13,7 +13,8 @@ require_once BASEPATH . '/inc/Func.class.php';
 require_once BASEPATH . '/inc/Bencode.class.php';
 require_once BASEPATH . '/inc/Base.class.php';
 require_once BASEPATH . '/inc/Db.class.php';
-
+require_once "../vendor/autoload.php";
+use Medoo\Medoo;
 //记录启动日志
 Func::Logs(date('Y-m-d H:i:s', time()) . " - 服务启动..." . PHP_EOL, 1);
 
@@ -24,12 +25,14 @@ $serv->set($config);
 
 $serv->on('WorkerStart', function ($serv, $worker_id) use ($config) {
     swoole_set_process_name("php_dht_server_event_worker");
-    Db::$config = array(
-        'host' => $config['db']['host'],
-        'user' => $config['db']['user'],
-        'pass' => $config['db']['pass'],
-        'name' => $config['db']['name'],
-    );
+    $database =new Medoo([
+        'database_type' => 'mysql',
+        'database_name' => $config['db']['name'],
+        'server' => $config['db']['host'],
+        'username' => $config['db']['user'],
+        'password' => $config['db']['pass'],
+    ]);
+    $serv->mysql = $database;
 });
 
 $serv->on('Packet', function ($serv, $data, $clientInfo) {
@@ -39,16 +42,13 @@ $serv->on('Packet', function ($serv, $data, $clientInfo) {
     }
     $rs = Base::decode($data);
     if (is_array($rs) && isset($rs['infohash'])) {
-        /*$redis = new Redis();
-        $redis->connect('127.0.0.1', 6379);
-        $redis->auth('fuck@lidebo');
-        $redis->select(10);
-        $redis_data = $redis->sIsMember('infohash',$rs['infohash']);
-        if(!$redis_data){
-            $redis->sAdd('infohash',$rs['infohash']);*/
-        $data = Db::get_one("select 1 from history where infohash = '$rs[infohash]' limit 1");
+        $data = $serv->mysql->count("history", [
+            "infohash" => $rs['infohash']
+        ]);
         if (!$data) {
-            Db::insert('history', array('infohash' => $rs['infohash']));
+            $serv->mysql->insert("history", [
+                "infohash" => $rs['infohash']
+            ]);
             $files = '';
             $length = 0;
             if ($rs['files'] != '') {
@@ -59,28 +59,28 @@ $serv->on('Packet', function ($serv, $data, $clientInfo) {
             } else {
                 $length = $rs['length'];
             }
-            Db::insert('bt', array(
-                    'name' => $rs['name'],
-                    'keywords' => Func::getKeyWords($rs['name']),
-                    'infohash' => $rs['infohash'],
-                    'files' => $files,
-                    'length' => $length,
-                    'piece_length' => $rs['piece_length'],
-                    'hits' => 0,
-                    'time' => date('Y-m-d H:i:s'),
-                    'lasttime' => date('Y-m-d H:i:s'),
-                )
-            );
+            $serv->mysql->insert("bt", [
+                'name' => $rs['name'],
+                'keywords' => Func::getKeyWords($rs['name']),
+                'infohash' => $rs['infohash'],
+                'files' => $files,
+                'length' => $length,
+                'piece_length' => $rs['piece_length'],
+                'hits' => 0,
+                'time' => date('Y-m-d H:i:s'),
+                'lasttime' => date('Y-m-d H:i:s'),
+            ]);
         } else {
             $files = addslashes(json_encode($rs['files'], JSON_UNESCAPED_UNICODE));
             $last_time = date('Y-m-d H:i:s');
-            Db::query("update bt set `hot` = `hot` + 1, `lasttime`= '" . $last_time . "',`files` = '" . $files . "' where `infohash` = '$rs[infohash]'");
+            $serv->mysql->update("account", [
+                "hot[+]" =>  1,
+                "lasttime"=> $last_time,
+                "files" => $files
+            ], [
+                "infohash[=]" => $rs[infohash]
+            ]);
         }
-        /*}else{
-            $files = addslashes(json_encode($rs['files'], JSON_UNESCAPED_UNICODE));
-            $last_time = date('Y-m-d H:i:s');
-            Db::query("update bt set `hot` = `hot` + 1, `lasttime`= '" . $last_time . "',`files` = '" . $files . "' where `infohash` = '$rs[infohash]'");
-        }*/
     }
     $serv->close(true);
 });

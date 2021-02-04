@@ -1,6 +1,6 @@
 #!/bin/bash
-ps -ef|grep "crazyDhtSpider/dht_server"|awk '{print $2}'|xargs kill -9
-ps -ef|grep dht_server|awk '{print $2}'|xargs kill -9
-ulimit -n 65535
-rm -rf /www/wwwroot/crazyDhtSpider/dht_server/logs/*
-php /www/wwwroot/crazyDhtSpider/dht_server/go.php
+echo "loading..."
+pid=`pidof php_dht_server_event_worker`
+echo $pid
+kill -USR1 $pid
+echo "loading success"
