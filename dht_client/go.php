@@ -44,12 +44,12 @@ $serv = new Swoole\Server('0.0.0.0', 6882, SWOOLE_PROCESS, SWOOLE_SOCK_UDP);
 $serv->set($config);
 
 $serv->on('WorkerStart', function ($serv, $worker_id) {
-    if($worker_id >= $serv->setting['worker_num']) {
+    if ($worker_id >= $serv->setting['worker_num']) {
         swoole_set_process_name("php_dht_client_task_worker");
     } else {
         swoole_set_process_name("php_dht_client_event_worker");
     }
-    swoole_timer_tick(AUTO_FIND_TIME, function ($timer_id){
+    swoole_timer_tick(AUTO_FIND_TIME, function ($timer_id) {
         global $table, $bootstrap_nodes;
         if (count($table) == 0) {
             DhtServer::join_dht($table, $bootstrap_nodes);
@@ -107,8 +107,8 @@ $serv->on('task', function (Swoole\Server $server, Swoole\Server\Task $task) {
         $rs = Metadata::download_metadata($client, $infohash);
         if ($rs != false) {
             //echo $ip.':'.$port.' udp send！'.PHP_EOL;
-            if($rs['files']=='""'){
-                $rs['files']='';
+            if ($rs['files'] == '""') {
+                $rs['files'] = '';
             }
             DhtServer::send_response($rs, array($config['server_ip'], $config['server_port']));
             //echo date('Y-m-d H:i:s').' '. $rs['name'].PHP_EOL;

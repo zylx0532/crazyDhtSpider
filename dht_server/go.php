@@ -13,6 +13,7 @@ require_once BASEPATH . '/inc/Func.class.php';
 require_once BASEPATH . '/inc/Bencode.class.php';
 require_once BASEPATH . '/inc/Base.class.php';
 require_once "../vendor/autoload.php";
+
 use Medoo\Medoo;
 
 //记录启动日志
@@ -25,7 +26,7 @@ $serv->set($config);
 
 $serv->on('WorkerStart', function ($serv, $worker_id) use ($config) {
     swoole_set_process_name("php_dht_server_event_worker");
-    $database =new Medoo([
+    $database = new Medoo([
         'database_type' => 'mysql',
         'database_name' => $config['db']['name'],
         'server' => $config['db']['host'],
@@ -59,7 +60,7 @@ $serv->on('Packet', function ($serv, $data, $clientInfo) {
             } else {
                 $length = $rs['length'];
             }
-            $files=$files='0'?'':$files;
+            $files = $files = '0' ? '' : $files;
             $serv->mysql->insert("bt", [
                 'name' => $rs['name'],
                 'keywords' => Func::getKeyWords($rs['name']),
@@ -75,8 +76,8 @@ $serv->on('Packet', function ($serv, $data, $clientInfo) {
             $files = addslashes(json_encode($rs['files'], JSON_UNESCAPED_UNICODE));
             $last_time = date('Y-m-d H:i:s');
             $serv->mysql->update("account", [
-                "hot[+]" =>  1,
-                "lasttime"=> $last_time,
+                "hot[+]" => 1,
+                "lasttime" => $last_time,
                 "files" => $files
             ], [
                 "infohash[=]" => $rs[infohash]

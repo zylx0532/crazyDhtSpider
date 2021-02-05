@@ -15,5 +15,5 @@ return array(
     'task_enable_coroutine' => true,
     'task_max_request' => 0,
     'enable_coroutine' => true,
-    //'task_time_out'=>3 //send超时时间
+    'task_time_out'=>10 //send超时时间
 );
