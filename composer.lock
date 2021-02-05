@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "8f92531745c32142a9540c26d000d0ee",
+    "content-hash": "18cc9b4d9bd2013a24a29235834812cb",
     "packages": [
         {
             "name": "catfan/medoo",
@@ -69,21 +69,19 @@
                 "source": "https://github.com/catfan/Medoo"
             },
             "time": "2020-02-11T08:20:42+00:00"
-        }
-    ],
-    "packages-dev": [
+        },
         {
             "name": "swoole/ide-helper",
             "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/swoole/ide-helper.git",
-                "reference": "feffd70afe9a0ee76b1559021feffbfd6049b157"
+                "reference": "b5a45a0fbee6ce9412b1893dfa824acb9a628d05"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/swoole/ide-helper/zipball/feffd70afe9a0ee76b1559021feffbfd6049b157",
-                "reference": "feffd70afe9a0ee76b1559021feffbfd6049b157",
+                "url": "https://api.github.com/repos/swoole/ide-helper/zipball/b5a45a0fbee6ce9412b1893dfa824acb9a628d05",
+                "reference": "b5a45a0fbee6ce9412b1893dfa824acb9a628d05",
                 "shasum": ""
             },
             "require-dev": {
@@ -92,6 +90,7 @@
                 "squizlabs/php_codesniffer": "~3.5.0",
                 "symfony/filesystem": "~4.0"
             },
+            "default-branch": true,
             "type": "library",
             "notification-url": "https://packagist.org/downloads/",
             "license": [
@@ -104,9 +103,14 @@
                 }
             ],
             "description": "IDE help files for Swoole.",
-            "time": "2020-08-24T18:10:47+00:00"
+            "support": {
+                "issues": "https://github.com/swoole/ide-helper/issues",
+                "source": "https://github.com/swoole/ide-helper/tree/master"
+            },
+            "time": "2021-02-01T05:29:04+00:00"
         }
     ],
+    "packages-dev": [],
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {

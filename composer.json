@@ -1,9 +1,7 @@
 {
-    "require-dev": {
-        "swoole/ide-helper": "@dev"
-    },
-  "require": {
+    "require": {
     "ext-json": "*",
-        "catfan/medoo": "^1.7"
+        "catfan/medoo": "^1.7",
+        "swoole/ide-helper": "@dev"
   }
 }
