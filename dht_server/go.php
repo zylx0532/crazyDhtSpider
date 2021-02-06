@@ -64,7 +64,7 @@ $serv->on('Packet', function ($serv, $data, $clientInfo) {
                 'name' => $rs['name'],
                 'keywords' => Func::getKeyWords($rs['name']),
                 'infohash' => $rs['infohash'],
-                'files' => $files='""'?'':$files,
+                'files' => $files,
                 'length' => $length,
                 'piece_length' => $rs['piece_length'],
                 'hits' => 0,
