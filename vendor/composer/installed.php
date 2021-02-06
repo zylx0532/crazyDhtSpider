@@ -6,7 +6,7 @@
     'aliases' => 
     array (
     ),
-    'reference' => '0edea5f3108597924dffe5f830ec341929af1c37',
+    'reference' => 'f125fff2366cc397e4d44cee52b8d9cecb713c64',
     'name' => '__root__',
   ),
   'versions' => 
@@ -18,7 +18,7 @@
       'aliases' => 
       array (
       ),
-      'reference' => '0edea5f3108597924dffe5f830ec341929af1c37',
+      'reference' => 'f125fff2366cc397e4d44cee52b8d9cecb713c64',
     ),
     'catfan/medoo' => 
     array (
@@ -28,6 +28,15 @@
       array (
       ),
       'reference' => '2d675f73e23f63bbaeb9a8aa33318659a3d3c32f',
+    ),
+    'sandfoxme/bencode' => 
+    array (
+      'pretty_version' => '1.5.0',
+      'version' => '1.5.0.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => '93d5b1c03349cb76388dd0d8ea046d902f338151',
     ),
     'swoole/ide-helper' => 
     array (

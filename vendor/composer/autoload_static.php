@@ -7,6 +7,11 @@ namespace Composer\Autoload;
 class ComposerStaticInite1394b437954dbc3155ea0fec8062bc4
 {
     public static $prefixLengthsPsr4 = array (
+        'S' => 
+        array (
+            'SandFox\\Bencode\\' => 16,
+            'SandFoxMe\\Bencode\\' => 18,
+        ),
         'M' => 
         array (
             'Medoo\\' => 6,
@@ -14,6 +19,14 @@ class ComposerStaticInite1394b437954dbc3155ea0fec8062bc4
     );
 
     public static $prefixDirsPsr4 = array (
+        'SandFox\\Bencode\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/sandfoxme/bencode/src',
+        ),
+        'SandFoxMe\\Bencode\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/sandfoxme/bencode/legacy',
+        ),
         'Medoo\\' => 
         array (
             0 => __DIR__ . '/..' . '/catfan/medoo/src',

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "18cc9b4d9bd2013a24a29235834812cb",
+    "content-hash": "42a706fe6a844f6fa274008d1e06d10b",
     "packages": [
         {
             "name": "catfan/medoo",
@@ -69,6 +69,63 @@
                 "source": "https://github.com/catfan/Medoo"
             },
             "time": "2020-02-11T08:20:42+00:00"
+        },
+        {
+            "name": "sandfoxme/bencode",
+            "version": "1.5.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/arokettu/bencode.git",
+                "reference": "93d5b1c03349cb76388dd0d8ea046d902f338151"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/arokettu/bencode/zipball/93d5b1c03349cb76388dd0d8ea046d902f338151",
+                "reference": "93d5b1c03349cb76388dd0d8ea046d902f338151",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^7.0 | ^8.0"
+            },
+            "require-dev": {
+                "ext-gmp": "*",
+                "phpunit/phpunit": ">=6.0.0 <10",
+                "psy/psysh": "*",
+                "squizlabs/php_codesniffer": "*"
+            },
+            "suggest": {
+                "ext-gmp": "In case you need integers larger than your architecture supports",
+                "php-64bit": "Running 64 bit is recommended to prevent integer overflow"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "SandFox\\Bencode\\": "src",
+                    "SandFoxMe\\Bencode\\": "legacy"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Anton Smirnov",
+                    "email": "sandfox@sandfox.me"
+                }
+            ],
+            "description": "BitTorrent's Bencode encoder/decoder",
+            "homepage": "https://sandfox.dev/php/bencode.html",
+            "keywords": [
+                "bencode",
+                "bittorrent",
+                "serialize",
+                "torrent"
+            ],
+            "support": {
+                "source": "https://github.com/arokettu/bencode/tree/1.5.0"
+            },
+            "time": "2021-02-03T01:52:50+00:00"
         },
         {
             "name": "swoole/ide-helper",

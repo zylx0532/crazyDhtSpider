@@ -1,5 +1,6 @@
 <?php
-
+require_once "../../vendor/autoload.php";
+use SandFox\Bencode\Bencode as Bencode2;
 /**
  * bencode编码解码类
  */
@@ -12,7 +13,11 @@ class Bencode
      */
     static public function decode($str)
     {
-        return Decode::decode($str);
+        try{
+            return Bencode2::decode($str);
+        }catch (\SandFox\Bencode\Exceptions\ParseErrorException $e){
+            echo $e->getMessage();
+        }
     }
 
     /**
@@ -22,7 +27,11 @@ class Bencode
      */
     static public function encode($value)
     {
-        return Encode::encode($value);
+        try{
+            return Bencode2::encode($value);
+        }catch (\SandFox\Bencode\Exceptions\ParseErrorException $e){
+            echo $e->getMessage();
+        }
     }
 }
 
@@ -170,7 +179,7 @@ class Decode
      * 解码数组类型数据
      * @return array 解码后的数据
      */
-    private function decode_list()
+    private function  decode_list()
     {
         $list = array();
         $terminated = false;

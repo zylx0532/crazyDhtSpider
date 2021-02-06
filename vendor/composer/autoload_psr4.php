@@ -6,5 +6,7 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname($vendorDir);
 
 return array(
+    'SandFox\\Bencode\\' => array($vendorDir . '/sandfoxme/bencode/src'),
+    'SandFoxMe\\Bencode\\' => array($vendorDir . '/sandfoxme/bencode/legacy'),
     'Medoo\\' => array($vendorDir . '/catfan/medoo/src'),
 );
