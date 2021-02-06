@@ -23,6 +23,8 @@ Func::Logs(date('Y-m-d H:i:s', time()) . " - 服务启动..." . PHP_EOL, 1);
 //SWOOLE_SOCK_UDP 创建udp socket
 $serv = new Swoole\Server('0.0.0.0', 2345, SWOOLE_PROCESS, SWOOLE_SOCK_UDP);
 $serv->set($config);
+//一键协程HOOK
+Co::set(['hook_flags'=> SWOOLE_HOOK_ALL]);
 
 $serv->on('WorkerStart', function ($serv, $worker_id) use ($config) {
     swoole_set_process_name("php_dht_server_event_worker");
