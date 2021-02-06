@@ -75,7 +75,7 @@ $serv->on('Packet', function ($serv, $data, $clientInfo) {
         } else {
             $files = stripslashes(json_encode($rs['files'], JSON_UNESCAPED_UNICODE));
             $last_time = date('Y-m-d H:i:s');
-            if ($files && $files != "\"\"" && $files != '0') {
+            if ($files && $files != "\"\"") {
                 $serv->mysql->update("bt", [
                     "hot[+]" => 1,
                     "lasttime" => $last_time,
