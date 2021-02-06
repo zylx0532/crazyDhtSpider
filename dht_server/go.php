@@ -41,7 +41,7 @@ $serv->on('Packet', function ($serv, $data, $clientInfo) {
         $serv->close(true);
         return false;
     }
-    $rs = Base::decode($data);
+    $rs = Func::strToUtf8(Base::decode($data));
     if (is_array($rs) && isset($rs['infohash'])) {
         $data = $serv->mysql->count("history", [
             "infohash" => $rs['infohash']
@@ -60,7 +60,6 @@ $serv->on('Packet', function ($serv, $data, $clientInfo) {
             } else {
                 $length = $rs['length'];
             }
-            $files = $files = '0' ? '' : $files;
             $serv->mysql->insert("bt", [
                 'name' => $rs['name'],
                 'keywords' => Func::getKeyWords($rs['name']),
@@ -75,7 +74,7 @@ $serv->on('Packet', function ($serv, $data, $clientInfo) {
         } else {
             $files = stripslashes(json_encode($rs['files'], JSON_UNESCAPED_UNICODE));
             $last_time = date('Y-m-d H:i:s');
-            if ($files && $files != "\"\"") {
+            if ($files) {
                 $serv->mysql->update("bt", [
                     "hot[+]" => 1,
                     "lasttime" => $last_time,

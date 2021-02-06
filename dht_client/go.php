@@ -107,9 +107,6 @@ $serv->on('task', function (Swoole\Server $server, Swoole\Server\Task $task) {
         $rs = Metadata::download_metadata($client, $infohash);
         if ($rs != false) {
             //echo $ip.':'.$port.' udp send！'.PHP_EOL;
-            if ($rs['files'] == '""') {
-                $rs['files'] = '';
-            }
             DhtServer::send_response($rs, array($config['server_ip'], $config['server_port']));
             //echo date('Y-m-d H:i:s').' '. $rs['name'].PHP_EOL;
         }
