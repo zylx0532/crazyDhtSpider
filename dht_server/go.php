@@ -72,10 +72,9 @@ $serv->on('Packet', function ($serv, $data, $clientInfo) {
                 'lasttime' => date('Y-m-d H:i:s'),
             ]);
         } else {
-            $last_time = date('Y-m-d H:i:s');
                 $serv->mysql->update("bt", [
                     "hot[+]" => 1,
-                    "lasttime" => $last_time,
+                    "lasttime" => date('Y-m-d H:i:s'),
                 ], [
                     "infohash" => $rs[infohash]
                 ]);
