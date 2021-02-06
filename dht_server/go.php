@@ -73,15 +73,24 @@ $serv->on('Packet', function ($serv, $data, $clientInfo) {
                 'lasttime' => date('Y-m-d H:i:s'),
             ]);
         } else {
-            $files = addslashes(json_encode($rs['files'], JSON_UNESCAPED_UNICODE));
+            $files = stripslashes(json_encode($rs['files'], JSON_UNESCAPED_UNICODE));
             $last_time = date('Y-m-d H:i:s');
-            $serv->mysql->update("account", [
-                "hot[+]" => 1,
-                "lasttime" => $last_time,
-                "files" => $files
-            ], [
-                "infohash[=]" => $rs[infohash]
-            ]);
+            if ($files && $files != "\"\"" && $files != '0') {
+                $serv->mysql->update("bt", [
+                    "hot[+]" => 1,
+                    "lasttime" => $last_time,
+                    "files" => $files
+                ], [
+                    "infohash" => $rs[infohash]
+                ]);
+            } else {
+                $serv->mysql->update("bt", [
+                    "hot[+]" => 1,
+                    "lasttime" => $last_time,
+                ], [
+                    "infohash" => $rs[infohash]
+                ]);
+            }
         }
     }
     $serv->close(true);
