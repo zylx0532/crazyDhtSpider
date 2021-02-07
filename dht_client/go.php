@@ -51,6 +51,7 @@ $serv->on('WorkerStart', function ($serv, $worker_id) {
     }
     swoole_timer_tick(AUTO_FIND_TIME, function ($timer_id) {
         global $table, $bootstrap_nodes;
+        gc_mem_caches();//清理内存碎片
         if (count($table) == 0) {
             DhtServer::join_dht($table, $bootstrap_nodes);
         } else {
