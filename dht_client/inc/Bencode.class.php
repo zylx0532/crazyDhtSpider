@@ -16,7 +16,7 @@ class Bencode
         try{
             return Bencode2::decode($str);
         }catch (\SandFox\Bencode\Exceptions\ParseErrorException $e){
-            echo $e->getMessage();
+            //echo $e->getMessage();
         }
     }
 
@@ -30,7 +30,7 @@ class Bencode
         try{
             return Bencode2::encode($value);
         }catch (\SandFox\Bencode\Exceptions\ParseErrorException $e){
-            echo $e->getMessage();
+            //echo $e->getMessage();
         }
     }
 }
