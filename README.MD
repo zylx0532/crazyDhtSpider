@@ -2,7 +2,7 @@ crazyDhtSpider
 ======
 # This project is based on phpDhtSpider modification：https://github.com/cuijun123/phpDhtSpider
 # At present, this procedure has been fixed before the existing problems, and can open the coroutine, has a very high efficiency
-# After my test, under the Vultr VPS of 1 core and 1G, the two VPs collected 5-7 pieces of effective data per second on average, and calculated that more than 400,000 pieces of effective data could be collected every day
+# After my test, under the Vultr VPS of 1 core and 1G, the two VPS collected 5-7 pieces of effective data per second on average, and calculated that more than 400,000 pieces of effective data could be collected every day
 # Thanks for the hard work of the original author
 
 **[中文说明](README_CN.md)**
