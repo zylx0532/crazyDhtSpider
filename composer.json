@@ -3,6 +3,7 @@
     "ext-json": "*",
         "catfan/medoo": "^1.7",
         "swoole/ide-helper": "@dev",
-        "sandfoxme/bencode": "^1.5"
+        "sandfoxme/bencode": "^1.5",
+        "elasticsearch/elasticsearch": "^7.11"
   }
 }

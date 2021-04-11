@@ -8,5 +8,10 @@ $baseDir = dirname($vendorDir);
 return array(
     'SandFox\\Bencode\\' => array($vendorDir . '/sandfoxme/bencode/src'),
     'SandFoxMe\\Bencode\\' => array($vendorDir . '/sandfoxme/bencode/legacy'),
+    'React\\Promise\\' => array($vendorDir . '/react/promise/src'),
+    'Psr\\Log\\' => array($vendorDir . '/psr/log/Psr/Log'),
     'Medoo\\' => array($vendorDir . '/catfan/medoo/src'),
+    'GuzzleHttp\\Stream\\' => array($vendorDir . '/ezimuel/guzzlestreams/src'),
+    'GuzzleHttp\\Ring\\' => array($vendorDir . '/ezimuel/ringphp/src'),
+    'Elasticsearch\\' => array($vendorDir . '/elasticsearch/elasticsearch/src/Elasticsearch'),
 );
