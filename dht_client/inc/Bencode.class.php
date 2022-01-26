@@ -1,6 +1,7 @@
 <?php
-require_once "../../vendor/autoload.php";
-use SandFox\Bencode\Bencode as Bencode2;
+//use SandFox\Bencode\Bencode as Bencode2;
+use Rhilip\Bencode\Bencode as Bencode2;
+use Rhilip\Bencode\ParseErrorException;
 /**
  * bencode编码解码类
  */
@@ -15,8 +16,8 @@ class Bencode
     {
         try{
             return Bencode2::decode($str);
-        }catch (\SandFox\Bencode\Exceptions\ParseErrorException $e){
-            //echo $e->getMessage();
+        }catch (ParseErrorException $e){
+            $e->getMessage();
         }
     }
 
@@ -27,11 +28,7 @@ class Bencode
      */
     static public function encode($value)
     {
-        try{
-            return Bencode2::encode($value);
-        }catch (\SandFox\Bencode\Exceptions\ParseErrorException $e){
-            //echo $e->getMessage();
-        }
+        return Bencode2::encode($value);
     }
 }
 

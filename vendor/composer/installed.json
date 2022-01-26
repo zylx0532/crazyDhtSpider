@@ -1,6 +1,73 @@
 {
     "packages": [
         {
+            "name": "arokettu/is-resource",
+            "version": "1.0.0",
+            "version_normalized": "1.0.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/arokettu/is-resource.git",
+                "reference": "8ef6383407633b80af73ef3e78d3cc1c592d83b8"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/arokettu/is-resource/zipball/8ef6383407633b80af73ef3e78d3cc1c592d83b8",
+                "reference": "8ef6383407633b80af73ef3e78d3cc1c592d83b8",
+                "shasum": "",
+                "mirrors": [
+                    {
+                        "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
+                        "preferred": true
+                    }
+                ]
+            },
+            "require": {
+                "php": ">= 5.3"
+            },
+            "time": "2021-09-25T01:21:59+00:00",
+            "type": "library",
+            "installation-source": "dist",
+            "autoload": {
+                "classmap": [
+                    "gen/ResourceMap.php"
+                ],
+                "files": [
+                    "src/functions.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Anton Smirnov",
+                    "email": "sandfox@sandfox.me",
+                    "homepage": "https://sandfox.me/",
+                    "role": "developer"
+                }
+            ],
+            "description": "Future compatible is_resource() and get_resource_type() that can understand opaque objects",
+            "homepage": "https://sandfox.dev/php/is-resource.html",
+            "keywords": [
+                "compatibility",
+                "curl",
+                "gd",
+                "hash",
+                "pgsql",
+                "php80",
+                "php81",
+                "resources",
+                "sockets"
+            ],
+            "support": {
+                "docs": "https://is-resource.readthedocs.io/",
+                "issues": "https://gitlab.com/sandfox/is-resource/-/issues",
+                "source": "https://gitlab.com/sandfox/is-resource"
+            },
+            "install-path": "../arokettu/is-resource"
+        },
+        {
             "name": "catfan/medoo",
             "version": "v1.7.10",
             "version_normalized": "1.7.10.0",
@@ -359,34 +426,108 @@
             "install-path": "../react/promise"
         },
         {
-            "name": "sandfoxme/bencode",
-            "version": "1.5.0",
-            "version_normalized": "1.5.0.0",
+            "name": "rhilip/bencode",
+            "version": "v1.1.1",
+            "version_normalized": "1.1.1.0",
             "source": {
                 "type": "git",
-                "url": "https://github.com/arokettu/bencode.git",
-                "reference": "93d5b1c03349cb76388dd0d8ea046d902f338151"
+                "url": "https://github.com/Rhilip/Bencode.git",
+                "reference": "d93fa6836ff6a0dcf199906537bce1f5eabfccf9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/arokettu/bencode/zipball/93d5b1c03349cb76388dd0d8ea046d902f338151",
-                "reference": "93d5b1c03349cb76388dd0d8ea046d902f338151",
-                "shasum": ""
+                "url": "https://api.github.com/repos/Rhilip/Bencode/zipball/d93fa6836ff6a0dcf199906537bce1f5eabfccf9",
+                "reference": "d93fa6836ff6a0dcf199906537bce1f5eabfccf9",
+                "shasum": "",
+                "mirrors": [
+                    {
+                        "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
+                        "preferred": true
+                    }
+                ]
             },
             "require": {
+                "php": "^5.6|^7.0|^8.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^9.0"
+            },
+            "suggest": {
+                "php-64bit": "Running 64 bit is recommended to prevent integer overflow"
+            },
+            "time": "2020-02-27T10:47:16+00:00",
+            "type": "library",
+            "installation-source": "dist",
+            "autoload": {
+                "psr-4": {
+                    "Rhilip\\Bencode\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Rhilip",
+                    "email": "rhilipruan@gmail.com"
+                }
+            ],
+            "description": "A pure and simple PHP library for encoding and decoding Bencode data",
+            "keywords": [
+                "bencode",
+                "bittorrent",
+                "torrent"
+            ],
+            "support": {
+                "issues": "https://github.com/Rhilip/Bencode/issues",
+                "source": "https://github.com/Rhilip/Bencode/tree/master"
+            },
+            "install-path": "../rhilip/bencode"
+        },
+        {
+            "name": "sandfoxme/bencode",
+            "version": "1.7.3",
+            "version_normalized": "1.7.3.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/arokettu/bencode.git",
+                "reference": "460c721d86b4b6e472ee66f5340c81491a646732"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/arokettu/bencode/zipball/460c721d86b4b6e472ee66f5340c81491a646732",
+                "reference": "460c721d86b4b6e472ee66f5340c81491a646732",
+                "shasum": "",
+                "mirrors": [
+                    {
+                        "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
+                        "preferred": true
+                    }
+                ]
+            },
+            "require": {
+                "arokettu/is-resource": "^1.0",
                 "php": "^7.0 | ^8.0"
             },
             "require-dev": {
+                "brick/math": "*",
                 "ext-gmp": "*",
+                "ext-json": "*",
+                "mikey179/vfsstream": "^1.6",
+                "pear/math_biginteger": "^1.0",
                 "phpunit/phpunit": ">=6.0.0 <10",
                 "psy/psysh": "*",
+                "sandfox.dev/code-standard": "^10@dev",
                 "squizlabs/php_codesniffer": "*"
             },
             "suggest": {
+                "brick/math": "In case you need integers larger than your architecture supports",
                 "ext-gmp": "In case you need integers larger than your architecture supports",
+                "pear/math_biginteger": "In case you need integers larger than your architecture supports",
                 "php-64bit": "Running 64 bit is recommended to prevent integer overflow"
             },
-            "time": "2021-02-03T01:52:50+00:00",
+            "time": "2021-10-24T03:23:18+00:00",
             "type": "library",
             "installation-source": "dist",
             "autoload": {
@@ -402,7 +543,9 @@
             "authors": [
                 {
                     "name": "Anton Smirnov",
-                    "email": "sandfox@sandfox.me"
+                    "email": "sandfox@sandfox.me",
+                    "homepage": "https://sandfox.me",
+                    "role": "developer"
                 }
             ],
             "description": "BitTorrent's Bencode encoder/decoder",
@@ -414,7 +557,9 @@
                 "torrent"
             ],
             "support": {
-                "source": "https://github.com/arokettu/bencode/tree/1.5.0"
+                "docs": "https://bencode.readthedocs.io/",
+                "issues": "https://gitlab.com/sandfox/bencode/-/issues",
+                "source": "https://gitlab.com/sandfox/bencode"
             },
             "install-path": "../sandfoxme/bencode"
         },
@@ -425,21 +570,21 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/swoole/ide-helper.git",
-                "reference": "b5a45a0fbee6ce9412b1893dfa824acb9a628d05"
+                "reference": "b277ed171a29f7bbce1c5feee5581553101e06bf"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/swoole/ide-helper/zipball/b5a45a0fbee6ce9412b1893dfa824acb9a628d05",
-                "reference": "b5a45a0fbee6ce9412b1893dfa824acb9a628d05",
-                "shasum": ""
+                "url": "https://api.github.com/repos/swoole/ide-helper/zipball/b277ed171a29f7bbce1c5feee5581553101e06bf",
+                "reference": "b277ed171a29f7bbce1c5feee5581553101e06bf",
+                "shasum": "",
+                "mirrors": [
+                    {
+                        "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
+                        "preferred": true
+                    }
+                ]
             },
-            "require-dev": {
-                "guzzlehttp/guzzle": "~6.5.0",
-                "laminas/laminas-code": "~3.4.0",
-                "squizlabs/php_codesniffer": "~3.5.0",
-                "symfony/filesystem": "~4.0"
-            },
-            "time": "2021-02-01T05:29:04+00:00",
+            "time": "2022-01-11T17:42:26+00:00",
             "default-branch": true,
             "type": "library",
             "installation-source": "source",
@@ -456,8 +601,18 @@
             "description": "IDE help files for Swoole.",
             "support": {
                 "issues": "https://github.com/swoole/ide-helper/issues",
-                "source": "https://github.com/swoole/ide-helper/tree/master"
+                "source": "https://github.com/swoole/ide-helper/tree/4.8.6"
             },
+            "funding": [
+                {
+                    "url": "https://gitee.com/swoole/swoole?donate=true",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://github.com/swoole",
+                    "type": "github"
+                }
+            ],
             "install-path": "../swoole/ide-helper"
         }
     ],

@@ -2,6 +2,56 @@
 
 ## 1.x
 
+### 1.7.3
+
+*Oct 24, 2021*
+
+* dump() now throws exception if the file is not writable
+* load() now throws exception if the file is not readable
+
+### 1.7.2
+
+*Oct 23, 2021*
+
+* Objects serialized to empty values are now allowed on non-root levels 
+
+### 1.7.1
+
+*Sep 25, 2021*
+
+* Future compatible stream check
+
+### 1.7.0
+
+*Sep 17, 2021*
+
+* Decoder and Encoder are backported from 3.x
+* `DictType` backported from 3.x
+* `useJsonSerializable` backported from 3.x
+
+### 1.6.2
+
+*Sep 10, 2021*
+
+* Fixed possible invalid dictionary encoding when traversable returns non unique keys
+
+### 1.6.1
+
+*Feb 14, 2021*
+
+* Fixed invalid `BigIntType::assertValidInteger` visibility
+* Added missing `@internal` and strict type markings
+
+### 1.6.0
+
+*Feb 14, 2021*
+
+* Expanded big integer support:
+    * `brick/math`
+    * `Math_BigInteger`
+    * Custom BigIntType numeric string wrapper
+    * Callback and custom class name
+
 ### 1.5.0
 
 *Feb 3, 2021*

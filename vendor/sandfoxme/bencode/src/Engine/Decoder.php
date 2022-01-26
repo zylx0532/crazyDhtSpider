@@ -1,26 +1,40 @@
 <?php
 
+declare(strict_types=1);
+
 namespace SandFox\Bencode\Engine;
 
+use Brick\Math\BigInteger;
+use SandFox\Bencode\Bencode\BigInt;
+use SandFox\Bencode\Bencode\Collection;
 use SandFox\Bencode\Exceptions\InvalidArgumentException;
 use SandFox\Bencode\Exceptions\ParseErrorException;
+use SandFox\Bencode\Types\BigIntType;
+use SandFox\Bencode\Util\IntUtil;
 use SandFox\Bencode\Util\Util;
+
+use function Arokettu\IsResource\try_get_resource_type;
 
 /**
  * Class Decoder
  * @package SandFox\Bencode\Engine
  * @author Anton Smirnov
  * @license MIT
+ * @internal
  */
-class Decoder
+final class Decoder
 {
     private $stream;
     private $decoded;
     private $options;
 
+    /** @var mixed */
     private $state;
+    /** @var \SplStack */
     private $stateStack;
+    /** @var \SplQueue */
     private $value;
+    /** @var \SplStack */
     private $valueStack;
 
     const STATE_ROOT = 1;
@@ -28,9 +42,9 @@ class Decoder
     const STATE_DICT = 3;
 
     const DEFAULT_OPTIONS = [
-        'listType' => 'array',
-        'dictType' => 'array',
-        'useGMP' => false,
+        'listType' => Collection::ARRAY,
+        'dictType' => Collection::ARRAY,
+        'bigInt' => BigInt::NONE,
     ];
 
     public function __construct($stream, array $options = [])
@@ -40,7 +54,7 @@ class Decoder
         $this->stream = $stream;
         $this->options = array_merge(self::DEFAULT_OPTIONS, $options);
 
-        if (!is_resource($this->stream) || get_resource_type($this->stream) !== 'stream') {
+        if (try_get_resource_type($this->stream) !== 'stream') {
             throw new InvalidArgumentException('Input is not a valid stream');
         }
     }
@@ -48,9 +62,9 @@ class Decoder
     public function decode()
     {
         $this->state        = self::STATE_ROOT;
-        $this->stateStack   = [];
+        $this->stateStack   = new \SplStack();
         $this->decoded      = null;
-        $this->valueStack   = [];
+        $this->valueStack   = new \SplStack();
 
         while (!feof($this->stream)) {
             $this->processChar();
@@ -130,29 +144,55 @@ class Decoder
             throw new ParseErrorException("Unexpected end of file while processing integer");
         }
 
-        if (!is_numeric($intStr)) {
+        if (!IntUtil::isValid($intStr)) {
             throw new ParseErrorException("Invalid integer format or integer overflow: '{$intStr}'");
         }
 
         $int = (int)$intStr;
 
+        // detect overflow
         if ((string)$int === $intStr) {
             $this->finalizeScalar($int);
             return;
         }
 
-        if ($this->options['useGMP']) {
-            $int = gmp_init($intStr);
-
-            if ((string)$int === $intStr) {
-                $this->finalizeScalar($int);
-                return;
-            }
+        if ($this->options['bigInt'] !== BigInt::NONE) {
+            $this->finalizeScalar($this->stringToBigInt($intStr));
+            return;
         }
 
-        if ((string)$int !== $intStr) {
-            throw new ParseErrorException("Invalid integer format or integer overflow: '{$intStr}'");
+        throw new ParseErrorException("Invalid integer format or integer overflow: '{$intStr}'");
+    }
+
+    private function stringToBigInt(string $intStr)
+    {
+        $bigInt = $this->options['bigInt'];
+
+        if ($bigInt === BigInt::INTERNAL) {
+            return new BigIntType($intStr);
         }
+
+        if ($bigInt === BigInt::GMP) {
+            return \gmp_init($intStr);
+        }
+
+        if ($bigInt === BigInt::BRICK_MATH) {
+            return BigInteger::of($intStr);
+        }
+
+        if ($bigInt === BigInt::PEAR) {
+            return new \Math_BigInteger($intStr);
+        }
+
+        if (is_callable($bigInt)) {
+            return $bigInt($intStr);
+        }
+
+        if (class_exists($bigInt)) {
+            return new $bigInt($intStr);
+        }
+
+        throw new ParseErrorException('Invalid BigMath mode');
     }
 
     private function processString()
@@ -176,7 +216,7 @@ class Decoder
 
         $str = $len === 0 ? '' : fread($this->stream, $len);
 
-        if (strlen($str) !== $len) {
+        if (\strlen($str) !== $len) {
             throw new ParseErrorException('Unexpected end of file while processing string');
         }
 
@@ -204,36 +244,36 @@ class Decoder
 
     private function finalizeList()
     {
-        $value = $this->convertArrayToType($this->value, 'listType');
+        $value = $this->convertArrayToType(iterator_to_array($this->value), 'listType');
 
         $this->pop($value);
     }
 
     private function finalizeDict()
     {
-        $dict = [];
+        $dictBuilder = function (): \Generator {
+            $prevKey = null;
 
-        $prevKey = null;
+            // we have a queue [key1, value1, key2, value2, key3, value3, ...]
+            while (\count($this->value)) {
+                $dictKey = $this->value->dequeue();
+                if (\is_string($dictKey) === false) {
+                    throw new ParseErrorException('Non string key found in the dictionary');
+                }
+                if (\count($this->value) === 0) {
+                    throw new ParseErrorException("Dictionary key without corresponding value: '{$dictKey}'");
+                }
+                if ($prevKey && strcmp($prevKey, $dictKey) >= 0) {
+                    throw new ParseErrorException("Invalid order of dictionary keys: '{$dictKey}' after '{$prevKey}'");
+                }
+                $dictValue = $this->value->dequeue();
 
-        // we have an array [key1, value1, key2, value2, key3, value3, ...]
-        while (count($this->value)) {
-            $dictKey = array_shift($this->value);
-            if (is_string($dictKey) === false) {
-                throw new ParseErrorException('Non string key found in the dictionary');
+                yield $dictKey => $dictValue;
+                $prevKey = $dictKey;
             }
-            if (count($this->value) === 0) {
-                throw new ParseErrorException("Dictionary key without corresponding value: '{$dictKey}'");
-            }
-            if ($prevKey && strcmp($prevKey, $dictKey) >= 0) {
-                throw new ParseErrorException("Invalid order of dictionary keys: '{$dictKey}' after '{$prevKey}'");
-            }
-            $dictValue = array_shift($this->value);
+        };
 
-            $dict[$dictKey] = $dictValue;
-            $prevKey = $dictKey;
-        }
-
-        $value = $this->convertArrayToType($dict, 'dictType');
+        $value = $this->convertArrayToType(iterator_to_array($dictBuilder()), 'dictType');
 
         $this->pop($value);
     }
@@ -244,13 +284,13 @@ class Decoder
      */
     private function push(int $newState)
     {
-        array_push($this->stateStack, $this->state);
+        $this->stateStack->push($this->state);
         $this->state = $newState;
 
         if ($this->state !== self::STATE_ROOT) {
-            array_push($this->valueStack, $this->value);
+            $this->valueStack->push($this->value);
         }
-        $this->value = [];
+        $this->value = new \SplQueue();
     }
 
     /**
@@ -260,7 +300,7 @@ class Decoder
     private function finalizeScalar($value)
     {
         if ($this->state !== self::STATE_ROOT) {
-            $this->value[] = $value;
+            $this->value->enqueue($value);
         } else {
             // we have final result
             $this->decoded = $value;
@@ -273,11 +313,11 @@ class Decoder
      */
     private function pop($valueToPrevLevel)
     {
-        $this->state = array_pop($this->stateStack);
+        $this->state = $this->stateStack->pop();
 
         if ($this->state !== self::STATE_ROOT) {
-            $this->value = array_pop($this->valueStack);
-            $this->value[] = $valueToPrevLevel;
+            $this->value = $this->valueStack->pop();
+            $this->value->enqueue($valueToPrevLevel);
         } else {
             // we have final result
             $this->decoded = $valueToPrevLevel;
@@ -288,16 +328,16 @@ class Decoder
     {
         $type = $this->options[$typeOption];
 
-        if ($type === 'array') {
+        if ($type === Collection::ARRAY) {
             return $array;
         }
 
-        if ($type === 'object') {
+        if ($type === Collection::OBJECT) {
             return (object)$array;
         }
 
         if (is_callable($type)) {
-            return call_user_func($type, $array);
+            return \call_user_func($type, $array);
         }
 
         if (class_exists($type)) {

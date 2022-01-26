@@ -8,6 +8,7 @@ error_reporting(E_ERROR);
 ini_set('date.timezone', 'Asia/Shanghai');
 ini_set("memory_limit", "-1");
 define('BASEPATH', dirname(__FILE__));
+define('DEBUG', true);
 $config = require_once BASEPATH . '/config.php';
 require_once BASEPATH . '/inc/Func.class.php';
 require_once BASEPATH . '/inc/Bencode.class.php';
@@ -28,14 +29,16 @@ Co::set(['hook_flags' => SWOOLE_HOOK_ALL]);
 
 $serv->on('WorkerStart', function ($serv, $worker_id) use ($config) {
     swoole_set_process_name("php_dht_server_event_worker");
-    $database = new Medoo([
-        'database_type' => 'mysql',
-        'database_name' => $config['db']['name'],
-        'server' => $config['db']['host'],
-        'username' => $config['db']['user'],
-        'password' => $config['db']['pass'],
-    ]);
-    $serv->mysql = $database;
+    if (!DEBUG) {
+        $database = new Medoo([
+            'database_type' => 'mysql',
+            'database_name' => $config['db']['name'],
+            'server' => $config['db']['host'],
+            'username' => $config['db']['user'],
+            'password' => $config['db']['pass'],
+        ]);
+        $serv->mysql = $database;
+    }
 });
 
 $serv->on('Packet', function ($serv, $data, $clientInfo) {
@@ -43,44 +46,50 @@ $serv->on('Packet', function ($serv, $data, $clientInfo) {
         $serv->close(true);
         return false;
     }
-    $rs = Func::strToUtf8(Base::decode($data));
+    $rs = Base::decode($data);
     if (is_array($rs) && isset($rs['infohash'])) {
-        $data = $serv->mysql->count("history", [
-            "infohash" => $rs['infohash']
-        ]);
-        if ($data) {
-            $serv->mysql->update("bt", [
-                "hot[+]" => 1,
-                "lasttime" => date('Y-m-d H:i:s'),
-            ], [
-                "infohash" => $rs[infohash]
-            ]);
+        $files = '';
+        $length = 0;
+        if ($rs['files'] != '') {
+            $files = json_encode($rs['files'], JSON_UNESCAPED_UNICODE);
+            foreach ($rs['files'] as $value) {
+                $length += $value['length'];
+            }
         } else {
-            $serv->mysql->insert("history", [
+            $length = $rs['length'];
+        }
+        $bt_data = [
+            'name' => $rs['name'],
+            'keywords' => Func::getKeyWords($rs['name']),
+            'infohash' => $rs['infohash'],
+            'files' => $files,
+            'length' => $length,
+            'piece_length' => $rs['piece_length'],
+            'hits' => 0,
+            'time' => date('Y-m-d H:i:s'),
+            'lasttime' => date('Y-m-d H:i:s'),
+        ];
+        if (!DEBUG) {
+            $data = $serv->mysql->count("history", [
                 "infohash" => $rs['infohash']
             ]);
-            $files = '';
-            $length = 0;
-            if ($rs['files'] != '') {
-                $files = json_encode($rs['files'], JSON_UNESCAPED_UNICODE);
-                foreach ($rs['files'] as $value) {
-                    $length += $value['length'];
-                }
+            if ($data) {
+                $serv->mysql->update("bt", [
+                    "hot[+]" => 1,
+                    "lasttime" => date('Y-m-d H:i:s'),
+                ], [
+                    "infohash" => $rs[infohash]
+                ]);
             } else {
-                $length = $rs['length'];
+                $serv->mysql->insert("history", [
+                    "infohash" => $rs['infohash']
+                ]);
+                $serv->mysql->insert("bt",$bt_data);
             }
-            $serv->mysql->insert("bt", [
-                'name' => $rs['name'],
-                'keywords' => Func::getKeyWords($rs['name']),
-                'infohash' => $rs['infohash'],
-                'files' => $files,
-                'length' => $length,
-                'piece_length' => $rs['piece_length'],
-                'hits' => 0,
-                'time' => date('Y-m-d H:i:s'),
-                'lasttime' => date('Y-m-d H:i:s'),
-            ]);
+        } else {
+            Func::Logs(json_encode($bt_data,JSON_UNESCAPED_UNICODE),2).PHP_EOL;
         }
+
     }
     $serv->close(true);
 });

@@ -7,7 +7,7 @@ return array(
         'name'=>'dht',
     ),
     'daemonize'=>true,//是否后台守护进程
-    'enable_coroutine' => true,//是否开启协程
+    'enable_coroutine' => false,//是否开启协程
     'worker_num' => 8,//设置启动的worker进程数
     'max_request' => 0, //防止 PHP 内存溢出, 一个工作进程处理 X 次任务后自动重启 (注: 0,不自动重启)
     'dispatch_mode' => 2,//保证同一个连接发来的数据只会被同一个worker处理

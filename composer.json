@@ -4,6 +4,8 @@
         "catfan/medoo": "^1.7",
         "swoole/ide-helper": "@dev",
         "sandfoxme/bencode": "^1.5",
-        "elasticsearch/elasticsearch": "^7.11"
-  }
+        "elasticsearch/elasticsearch": "^7.11",
+        "rhilip/bencode": "^1.1",
+      "ext-mbstring": "*"
+    }
 }

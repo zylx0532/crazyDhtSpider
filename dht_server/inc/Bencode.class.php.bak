@@ -12,11 +12,7 @@ class Bencode
      */
     static public function decode($str)
     {
-        if (!is_string($str))
-            return '';
-        Decode::$source = $str;
-        Decode::$length = strlen($str);
-        return Decode::decodes();
+        return Decode::decode($str);
     }
 
     /**
@@ -26,14 +22,7 @@ class Bencode
      */
     static public function encode($value)
     {
-        if (is_object($value)) {
-            if (method_exists($value, 'toArray'))
-                $value = $value->toArray();
-            else
-                $value = (array)$value;
-        }
-        Encode::$data = $value;
-        return Encode::encodes();
+        return Encode::encode($value);
     }
 }
 
@@ -46,32 +35,45 @@ class Decode
      * 解码数据
      * @var string
      */
-    public static $source;
+    private $source;
     /**
      * 数据长度
      * @var integer
      */
-    public static $length;
+    private $length;
     /**
      * 当前索引
      * @var integer
      */
-    private static $offset = 0;
+    private $offset = 0;
 
+    /**
+     * 析构函数, 传入数据并计算长度
+     * @param string $source 要解码的数据
+     */
+    private function __construct($source)
+    {
+        $this->source = $source;
+        $this->length = strlen($source);
+    }
 
     /**
      * 解码bencode数据
      * @param string $source 要解码的数据
      * @return mixed         解码后的数据
      */
-    static public function decodes()
+    static public function decode($source)
     {
-        self::$offset = 0;
+        // 检查数据是否正确
+        if (!is_string($source))
+            return '';
+
         // 调用类本身完成解码
-        $decoded = self::do_decode();
-        //echo self::$offset .'---'. self::$length.PHP_EOL;
+        $decode = new self($source);
+        $decoded = $decode->do_decode();
+
         // 验证数据
-        if (self::$offset != self::$length)
+        if ($decode->offset != $decode->length)
             return '';
 
         return $decoded;
@@ -81,22 +83,22 @@ class Decode
      * 选择操作类型
      * @return mixed 解码后的数据
      */
-    static private function do_decode()
+    private function do_decode()
     {
         // 截取数据字符判断操作类型
-        switch (self::get_char()) {
+        switch ($this->get_char()) {
             case 'i':
-                ++self::$offset;
-                return self::decode_integer();
+                ++$this->offset;
+                return $this->decode_integer();
             case 'l':
-                ++self::$offset;
-                return self::decode_list();
+                ++$this->offset;
+                return $this->decode_list();
             case 'd':
-                ++self::$offset;
-                return self::decode_dict();
+                ++$this->offset;
+                return $this->decode_dict();
             default:
-                if (ctype_digit(self::get_char()))
-                    return self::decode_string();
+                if (ctype_digit($this->get_char()))
+                    return $this->decode_string();
         }
 
         return '';
@@ -106,35 +108,35 @@ class Decode
      * 解码数字类型数据
      * @return integer 解码后的数据
      */
-    static private function decode_integer()
+    private function decode_integer()
     {
-        $offset_e = strpos(self::$source, 'e', self::$offset);
+        $offset_e = strpos($this->source, 'e', $this->offset);
 
         if ($offset_e === false)
             return '';
 
-        $current_off = self::$offset;
+        $current_off = $this->offset;
 
-        if (self::get_char($current_off) == '-')
+        if ($this->get_char($current_off) == '-')
             ++$current_off;
 
         if ($offset_e === $current_off)
             return '';
 
         while ($current_off < $offset_e) {
-            if (!ctype_digit(self::get_char($current_off)))
+            if (!ctype_digit($this->get_char($current_off)))
                 return '';
 
             ++$current_off;
         }
 
-        $value = substr(self::$source, self::$offset, $offset_e - self::$offset);
+        $value = substr($this->source, $this->offset, $offset_e - $this->offset);
         $absolute_value = (string)abs($value);
 
         if (1 < strlen($absolute_value) && '0' == $value[0])
             return '';
 
-        self::$offset = $offset_e + 1;
+        $this->offset = $offset_e + 1;
 
         return $value + 0;
     }
@@ -143,23 +145,23 @@ class Decode
      * 解码字符串类型数据
      * @return string 解码后的数据
      */
-    static private function decode_string()
+    private function decode_string()
     {
-        if ('0' === self::get_char() && ':' != self::get_char(self::$offset + 1))
+        if ('0' === $this->get_char() && ':' != $this->get_char($this->offset + 1))
             return '';
 
-        $offset_o = strpos(self::$source, ':', self::$offset);
+        $offset_o = strpos($this->source, ':', $this->offset);
 
         if ($offset_o === false)
             return '';
 
-        $content_length = (int)substr(self::$source, self::$offset, $offset_o);
+        $content_length = (int)substr($this->source, $this->offset, $offset_o);
 
-        if (($content_length + $offset_o + 1) > self::$length)
+        if (($content_length + $offset_o + 1) > $this->length)
             return '';
 
-        $value = substr(self::$source, $offset_o + 1, $content_length);
-        self::$offset = $offset_o + $content_length + 1;
+        $value = substr($this->source, $offset_o + 1, $content_length);
+        $this->offset = $offset_o + $content_length + 1;
 
         return $value;
     }
@@ -168,25 +170,25 @@ class Decode
      * 解码数组类型数据
      * @return array 解码后的数据
      */
-    static private function decode_list()
+    private function decode_list()
     {
         $list = array();
         $terminated = false;
-        $list_offset = self::$offset;
+        $list_offset = $this->offset;
 
-        while (self::get_char() !== false) {
-            if (self::get_char() == 'e') {
+        while ($this->get_char() !== false) {
+            if ($this->get_char() == 'e') {
                 $terminated = true;
                 break;
             }
 
-            $list[] = self::do_decode();
+            $list[] = $this->do_decode();
         }
 
-        if (!$terminated && self::get_char() === false)
+        if (!$terminated && $this->get_char() === false)
             return '';
 
-        self::$offset++;
+        $this->offset++;
 
         return $list;
     }
@@ -195,35 +197,35 @@ class Decode
      * 解码词典类型数据
      * @return array 解码后的数据
      */
-    static private function decode_dict()
+    private function decode_dict()
     {
         $dict = array();
         $terminated = false;
-        $dict_offset = self::$offset;
+        $dict_offset = $this->offset;
 
-        while (self::get_char() !== false) {
-            if (self::get_char() == 'e') {
+        while ($this->get_char() !== false) {
+            if ($this->get_char() == 'e') {
                 $terminated = true;
                 break;
             }
 
-            $key_offset = self::$offset;
+            $key_offset = $this->offset;
 
-            if (!ctype_digit(self::get_char()))
+            if (!ctype_digit($this->get_char()))
                 return '';
 
-            $key = self::decode_string();
+            $key = $this->decode_string();
 
             if (isset($dict[$key]))
                 return '';
 
-            $dict[$key] = self::do_decode();
+            $dict[$key] = $this->do_decode();
         }
 
-        if (!$terminated && self::get_char() === false)
+        if (!$terminated && $this->get_char() === false)
             return '';
 
-        self::$offset++;
+        $this->offset++;
 
         return $dict;
     }
@@ -233,15 +235,15 @@ class Decode
      * @param integer $offset 截取索引
      * @return string|false         截取到的数据
      */
-    static private function get_char($offset = null)
+    private function get_char($offset = null)
     {
         if ($offset === null)
-            $offset = self::$offset;
+            $offset = $this->offset;
 
-        if (empty(self::$source) || self::$offset >= self::$length)
+        if (empty($this->source) || $this->offset >= $this->length)
             return false;
 
-        return self::$source[$offset];
+        return $this->source[$offset];
     }
 }
 
@@ -251,17 +253,34 @@ class Encode
      * 保存编码数据
      * @var mixed
      */
-    public static $data;
+    private $data;
 
+    /**
+     * 析构函数, 传入要编码的数据
+     * @param mixed $data 要编码的数据
+     */
+    private function __construct($data)
+    {
+        $this->data = $data;
+    }
 
     /**
      * bencode编码
      * @param mixed $data 要编码的数据
      * @return string       编码后的数据
      */
-    static public function encodes()
+    static public function encode($data)
     {
-        $encoded = self::do_encode();
+        if (is_object($data)) {
+            if (method_exists($data, 'toArray'))
+                $data = $data->toArray();
+            else
+                $data = (array)$data;
+        }
+
+        $encode = new self($data);
+        $encoded = $encode->do_encode();
+
         return $encoded;
     }
 
@@ -270,19 +289,19 @@ class Encode
      * @param mixed $data 要编码的数据
      * @return string       编码后的数据
      */
-    static private function do_encode($data = null)
+    private function do_encode($data = null)
     {
-        $data = is_null($data) ? self::$data : $data;
+        $data = is_null($data) ? $this->data : $data;
 
         if (is_array($data) && (isset($data[0]) || empty($data))) {
-            return self::encode_list($data);
+            return $this->encode_list($data);
         } elseif (is_array($data)) {
-            return self::encode_dict($data);
+            return $this->encode_dict($data);
         } elseif (is_integer($data) || is_float($data)) {
             $data = sprintf("%.0f", round($data, 0));
-            return self::encode_integer($data);
+            return $this->encode_integer($data);
         } else {
-            return self::encode_string($data);
+            return $this->encode_string($data);
         }
     }
 
@@ -291,9 +310,9 @@ class Encode
      * @param integer $data 要编码的数据
      * @return string       编码后的数据
      */
-    static private function encode_integer($data = null)
+    private function encode_integer($data = null)
     {
-        $data = is_null($data) ? self::$data : $data;
+        $data = is_null($data) ? $this->data : $data;
 
         return sprintf("i%.0fe", $data);
     }
@@ -303,9 +322,9 @@ class Encode
      * @param string $data 要编码的数据
      * @return string       编码后的数据
      */
-    static private function encode_string($data = null)
+    private function encode_string($data = null)
     {
-        $data = is_null($data) ? self::$data : $data;
+        $data = is_null($data) ? $this->data : $data;
 
         return sprintf("%d:%s", strlen($data), $data);
     }
@@ -315,13 +334,13 @@ class Encode
      * @param array $data 要编码的数据
      * @return string           编码后的数据
      */
-    static private function encode_list(array $data = null)
+    private function encode_list(array $data = null)
     {
-        $data = is_null($data) ? self::$data : $data;
+        $data = is_null($data) ? $this->data : $data;
         $list = '';
 
         foreach ($data as $value)
-            $list .= self::do_encode($value);
+            $list .= $this->do_encode($value);
 
         return "l{$list}e";
     }
@@ -331,14 +350,14 @@ class Encode
      * @param array $data 要编码的数据
      * @return string           编码后的数据
      */
-    static private function encode_dict(array $data = null)
+    private function encode_dict(array $data = null)
     {
-        $data = is_null($data) ? self::$data : $data;
+        $data = is_null($data) ? $this->data : $data;
         ksort($data);
         $dict = '';
 
         foreach ($data as $key => $value)
-            $dict .= self::encode_string($key) . self::do_encode($value);
+            $dict .= $this->encode_string($key) . $this->do_encode($value);
 
         return "d{$dict}e";
     }
