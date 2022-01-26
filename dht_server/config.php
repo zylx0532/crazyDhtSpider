@@ -6,6 +6,7 @@ return array(
         'pass'=>' ',
         'name'=>'dht',
     ),
+    'reload_async'=>true,//设置为 true 时，将启用异步安全重启特性，Worker 进程会等待异步事件完成后再退出
     'daemonize'=>true,//是否后台守护进程
     'enable_coroutine' => false,//是否开启协程
     'worker_num' => 8,//设置启动的worker进程数
