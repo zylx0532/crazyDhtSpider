@@ -6,8 +6,6 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname($vendorDir);
 
 return array(
-    'SandFox\\Bencode\\' => array($vendorDir . '/sandfoxme/bencode/src'),
-    'SandFoxMe\\Bencode\\' => array($vendorDir . '/sandfoxme/bencode/legacy'),
     'Rhilip\\Bencode\\' => array($vendorDir . '/rhilip/bencode/src'),
     'React\\Promise\\' => array($vendorDir . '/react/promise/src'),
     'Psr\\Log\\' => array($vendorDir . '/psr/log/Psr/Log'),

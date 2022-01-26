@@ -8,16 +8,10 @@ class ComposerStaticInite1394b437954dbc3155ea0fec8062bc4
 {
     public static $files = array (
         'ad155f8f1cf0d418fe49e248db8c661b' => __DIR__ . '/..' . '/react/promise/src/functions_include.php',
-        'e7f39ec5aa2fc163c79bcdbea66e1aa4' => __DIR__ . '/..' . '/arokettu/is-resource/src/functions.php',
         '8592c7b0947d8a0965a9e8c3d16f9c24' => __DIR__ . '/..' . '/elasticsearch/elasticsearch/src/autoload.php',
     );
 
     public static $prefixLengthsPsr4 = array (
-        'S' => 
-        array (
-            'SandFox\\Bencode\\' => 16,
-            'SandFoxMe\\Bencode\\' => 18,
-        ),
         'R' => 
         array (
             'Rhilip\\Bencode\\' => 15,
@@ -43,14 +37,6 @@ class ComposerStaticInite1394b437954dbc3155ea0fec8062bc4
     );
 
     public static $prefixDirsPsr4 = array (
-        'SandFox\\Bencode\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/sandfoxme/bencode/src',
-        ),
-        'SandFoxMe\\Bencode\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/sandfoxme/bencode/legacy',
-        ),
         'Rhilip\\Bencode\\' => 
         array (
             0 => __DIR__ . '/..' . '/rhilip/bencode/src',
@@ -82,7 +68,6 @@ class ComposerStaticInite1394b437954dbc3155ea0fec8062bc4
     );
 
     public static $classMap = array (
-        'Arokettu\\IsResource\\ResourceMap' => __DIR__ . '/..' . '/arokettu/is-resource/gen/ResourceMap.php',
         'Composer\\InstalledVersions' => __DIR__ . '/..' . '/composer/InstalledVersions.php',
     );
 

@@ -1,5 +1,4 @@
 <?php
-//use SandFox\Bencode\Bencode as Bencode2;
 use Rhilip\Bencode\Bencode as Bencode2;
 use Rhilip\Bencode\ParseErrorException;
 /**
