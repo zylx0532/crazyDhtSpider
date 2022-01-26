@@ -49,14 +49,12 @@ Find out how to install Swoole extensions
 
 2、Note that 'daemonize'=>false in config.php. // You can decide whether to start the background daemon or not
 
-3、To smoothly restart services, run the reload_client.sh and reload_server.sh scripts
+3、After the data volume reaches the level of one layer, it needs to be divided into tables or partitioned, otherwise the performance of MySQL will be very poor, please study by yourself。
 
-4、After the data volume reaches the level of one layer, it needs to be divided into tables or partitioned, otherwise the performance of MySQL will be very poor, please study by yourself。
+4、It is recommended to find a more adequate flow of VPS to run, preferably unlimited flow
 
-5、It is recommended to find a more adequate flow of VPS to run, preferably unlimited flow
+5、 At the beginning of the operation, because the node information is less, the data is relatively slow to obtain, the longer the operation time, the better the effect
 
-6、 At the beginning of the operation, because the node information is less, the data is relatively slow to obtain, the longer the operation time, the better the effect
-
-7、This tool is mainly used for study and research. I shall not be responsible for any disputes or legal problems arising from the use of this tool
+6、This tool is mainly used for study and research. I shall not be responsible for any disputes or legal problems arising from the use of this tool
 
 
