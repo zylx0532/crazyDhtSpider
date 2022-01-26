@@ -78,7 +78,7 @@ $serv->on('Packet', function ($serv, $data, $clientInfo) {
                     "hot[+]" => 1,
                     "lasttime" => date('Y-m-d H:i:s'),
                 ], [
-                    "infohash" => $rs[infohash]
+                    "infohash" => $rs['infohash']
                 ]);
             } else {
                 $serv->mysql->insert("history", [
