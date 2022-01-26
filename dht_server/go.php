@@ -8,7 +8,7 @@ error_reporting(E_ERROR);
 ini_set('date.timezone', 'Asia/Shanghai');
 ini_set("memory_limit", "-1");
 define('BASEPATH', dirname(__FILE__));
-define('DEBUG', true);
+define('DEBUG', false);
 $config = require_once BASEPATH . '/config.php';
 require_once BASEPATH . '/inc/Func.class.php';
 require_once BASEPATH . '/inc/Bencode.class.php';
@@ -73,7 +73,7 @@ $serv->on('Packet', function ($serv, $data, $clientInfo) {
             $data = $serv->mysql->count("history", [
                 "infohash" => $rs['infohash']
             ]);
-            if ($data) {
+            if ($data > 0) {
                 $serv->mysql->update("bt", [
                     "hot[+]" => 1,
                     "lasttime" => date('Y-m-d H:i:s'),
@@ -84,10 +84,10 @@ $serv->on('Packet', function ($serv, $data, $clientInfo) {
                 $serv->mysql->insert("history", [
                     "infohash" => $rs['infohash']
                 ]);
-                $serv->mysql->insert("bt",$bt_data);
+                $serv->mysql->insert("bt", $bt_data);
             }
         } else {
-            Func::Logs(json_encode($bt_data,JSON_UNESCAPED_UNICODE),2).PHP_EOL;
+            Func::Logs(json_encode($bt_data, JSON_UNESCAPED_UNICODE), 2) . PHP_EOL;
         }
 
     }
