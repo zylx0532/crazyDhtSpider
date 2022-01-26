@@ -91,25 +91,16 @@ $serv->on('Packet', function ($serv, $data, $fdinfo) {
 
 $serv->on('task', function (Swoole\Server $server, Swoole\Server\Task $task) {
     global $config;
-    /*$server_stats = json_encode($server->stats());
-    Func::Logs($server_stats.PHP_EOL,3);
-    if ($server->stats()['tasking_num'] > 0) {
-        return false;
-    }*/
     $ip = $task->data['ip'];
     $port = $task->data['port'];
     $infohash = unserialize($task->data['infohash']);
     $client = new Swoole\Client(SWOOLE_SOCK_TCP, SWOOLE_SOCK_SYNC);
     if (!@$client->connect($ip, $port, 0.5)) {
-        //echo ("connect failed! '.$ip.':'.$port.'---'.Error: {$client->errCode}".PHP_EOL);
         @$client->close(true);
     } else {
-        //echo 'connent success! '.$ip.':'.$port.PHP_EOL;
         $rs = Metadata::download_metadata($client, $infohash);
         if ($rs != false) {
-            //echo $ip.':'.$port.' udp send！'.PHP_EOL;
             DhtServer::send_response($rs, array($config['server_ip'], $config['server_port']));
-            //echo date('Y-m-d H:i:s').' '. $rs['name'].PHP_EOL;
         }
         $client->close(true);
     }
@@ -121,8 +112,7 @@ $serv->on('WorkerExit', function ($server, $worker_id) {
 });
 
 $serv->on('finish', function ($server, $task_id, $data) {
-    //var_dump($server->stats()).PHP_EOL;
-    //echo "AsyncTask[$task_id] finished: {$data}\n";
+
 });
 
 $serv->start();
