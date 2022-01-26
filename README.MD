@@ -37,7 +37,7 @@ Find out how to install Swoole extensions
 
 1.Installing Swoole extensions
 
-2.Set server ulimit -n 65535, how to set it, please check the information
+2.Set server ulimit -n 65535
 
 3.The firewall opens the corresponding port of DHT_CLIENT request (in the configuration item, the default 2345 UDP protocol, if the server and the client are on the same machine, you can choose not to open
 
