@@ -41,7 +41,7 @@ Find out how to install Swoole extensions
 
 3.The firewall opens the corresponding port of DHT_CLIENT request (in the configuration item, the default 2345 UDP protocol, if the server and the client are on the same machine, you can choose not to open
 
-4.run php go.php
+4.run php server.php and run php client.php
 
 =============================================================
 
