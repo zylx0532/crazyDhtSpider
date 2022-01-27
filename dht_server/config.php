@@ -9,7 +9,7 @@ return array(
     'reload_async'=>true,//设置为 true 时，将启用异步安全重启特性，Worker 进程会等待异步事件完成后再退出
     'daemonize'=>true,//是否后台守护进程
     'enable_coroutine' => false,//是否开启协程
-    'worker_num' => 8,//设置启动的worker进程数
+    'worker_num' => 4,//设置启动的worker进程数
     'max_request' => 0, //防止 PHP 内存溢出, 一个工作进程处理 X 次任务后自动重启 (注: 0,不自动重启)
     'dispatch_mode' => 2,//保证同一个连接发来的数据只会被同一个worker处理
     'log_level' => SWOOLE_LOG_ERROR,//日志级别设置
