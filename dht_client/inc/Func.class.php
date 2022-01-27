@@ -69,35 +69,35 @@ class Func
         }
         return implode(',', $title);
     }
-    public static function strToUtf8($str){
-        $encode = mb_detect_encoding($str, array("ASCII",'UTF-8',"GB2312","GBK",'BIG5'));
-        if($encode == 'UTF-8'){
+
+    public static function strToUtf8($str)
+    {
+        $encode = mb_detect_encoding($str, array("ASCII", 'UTF-8', "GB2312", "GBK", 'BIG5'));
+        if ($encode == 'UTF-8') {
             return $str;
-        }else{
+        } else {
             return mb_convert_encoding($str, 'UTF-8', $encode);
         }
     }
-    public static function array_transcoding($array) {
-        if(is_array($array)) {
-            foreach($array as $k => $v) {
+
+    public static function array_transcoding($array)
+    {
+        if (is_array($array)) {
+            foreach ($array as $k => $v) {
                 $array[$k] = self::array_transcoding($v);
             }
             return $array;
         } else {
-            if(is_string($array)) {
-                $encode = mb_detect_encoding($array, array("ASCII",'UTF-8',"GB2312","GBK",'BIG5'));
-                if($encode == 'UTF-8'){
-                    return $array;
-                }else{
-                    try{
-                        $result = mb_convert_encoding($array, 'UTF-8');
-                    }catch (Exception $e){
-                        self::Logs($array);
-                    }
-                    return  $result;
+            $encode = mb_detect_encoding($array, array("ASCII", 'UTF-8', "GB2312", "GBK", 'BIG5'));
+            if ($encode == 'UTF-8') {
+                return $array;
+            } else {
+                try {
+                    $result = mb_convert_encoding($array, 'UTF-8');
+                } catch (Exception $e) {
+                    self::Logs($array);
                 }
-            }else{
-                return 'no source';
+                return $result;
             }
         }
     }
