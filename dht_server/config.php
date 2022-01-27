@@ -12,7 +12,8 @@ return array(
     'worker_num' => 8,//设置启动的worker进程数
     'max_request' => 0, //防止 PHP 内存溢出, 一个工作进程处理 X 次任务后自动重启 (注: 0,不自动重启)
     'dispatch_mode' => 2,//保证同一个连接发来的数据只会被同一个worker处理
-    'log_file' => BASEPATH . '/logs/error.log',
+    'log_level' => SWOOLE_LOG_ERROR,//日志级别设置
+    'log_file' => BASEPATH . '/logs/error.log',//日志路径
     'max_conn'=>65535,//最大连接数
     'heartbeat_check_interval' => 5, //启用心跳检测，此选项表示每隔多久轮循一次，单位为秒
     'heartbeat_idle_time' => 10, //与heartbeat_check_interval配合使用。表示连接最大允许空闲的时间

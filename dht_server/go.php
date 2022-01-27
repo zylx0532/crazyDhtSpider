@@ -51,7 +51,7 @@ $serv->on('Packet', function ($serv, $data, $clientInfo) {
         $files = '';
         $length = 0;
         if ($rs['files'] != '') {
-            $files = json_encode($rs['files'], JSON_UNESCAPED_UNICODE);
+            $files = json_encode(Func::array_transcoding($rs['files']), JSON_UNESCAPED_UNICODE);
             foreach ($rs['files'] as $value) {
                 $length += $value['length'];
             }
