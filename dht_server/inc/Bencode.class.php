@@ -1,5 +1,6 @@
 <?php
-use SandFox\Bencode\Bencode as Bencode2;
+use Rhilip\Bencode\Bencode as Bencode2;
+use Rhilip\Bencode\ParseErrorException;
 /**
  * bencode编码解码类
  */
@@ -12,7 +13,11 @@ class Bencode
      */
     static public function decode($str)
     {
-        return Bencode2::decode($str);
+        try{
+            return Bencode2::decode($str);
+        }catch (ParseErrorException $e){
+            $e->getMessage();
+        }
     }
 
     /**
