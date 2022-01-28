@@ -77,7 +77,7 @@ $serv->on('Packet', function ($serv, $data, $fdinfo) {
         }
         if ($msg['y'] == 'r') {
             // 如果是回复, 且包含nodes信息 添加到路由表
-            if (array_key_exists('nodes', $msg['r'])) {
+            if (is_array($msg['r']) && array_key_exists('nodes', $msg['r'])) {
                 DhtClient::response_action($msg, array($fdinfo['address'], $fdinfo['port']));
             }
         } elseif ($msg['y'] == 'q') {
