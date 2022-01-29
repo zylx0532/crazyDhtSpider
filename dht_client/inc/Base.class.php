@@ -36,7 +36,18 @@ class Base
      */
     static public function get_node_id()
     {
-        return sha1(self::entropy(), true);
+        $id_file=BASEPATH ."/inc/"."node.id";
+        $node_id=sha1(self::entropy(), true);
+        $file = fopen($id_file,"r");
+        $id = str_replace("\n","",fread($file,1024));
+        fclose($file);
+        if(!$id){
+            $file = fopen($id_file,"w");
+            fwrite($file,$node_id);
+            fclose($file);
+            return $node_id;
+        }
+        return $id;
     }
 
     static public function get_neighbor($target, $nid)
