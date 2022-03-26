@@ -9,25 +9,15 @@ crazyDhtSpider
 
 Distributed DHT web crawler based on PHP
 
-Swoole extensions need to be installed
-
-swoole version 4.0 +
-
-PHP 7.2+
-
-Find out how to install Swoole extensions
-
 #########Software Operation Instructions##############
 
 **dht_client directory** For the crawler server **Operating environment requirements**
 
-1.Installing Swoole extensions
+1.Set server ulimit -n 65535, how to set it, please check the information
 
-2.Set server ulimit -n 65535, how to set it, please check the information
+2.Server firewall needs to open port 6882 UDP protocol
 
-3.Server firewall needs to open port 6882 UDP protocol
-
-4.run php go.php
+3.run ./swoole-cli dht_client/client.php
 
 **A lot of people don't collect data because of the third reason**
 
@@ -35,13 +25,11 @@ Find out how to install Swoole extensions
 
 **dht_server directory** Receive data server (can be on the same server) **Operating environment requirements**
 
-1.Installing Swoole extensions
+1.Set server ulimit -n 65535
 
-2.Set server ulimit -n 65535
+2.The firewall opens the corresponding port of DHT_CLIENT request (in the configuration item, the default 2345 UDP protocol, if the server and the client are on the same machine, you can choose not to open
 
-3.The firewall opens the corresponding port of DHT_CLIENT request (in the configuration item, the default 2345 UDP protocol, if the server and the client are on the same machine, you can choose not to open
-
-4.run php server.php and run php client.php
+3.run ./swoole-cli dht_server/server.php and ./swoole-cli dht_client/client.php
 
 =============================================================
 
