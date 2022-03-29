@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "c7e923009178c67b8a62521858489382",
+    "content-hash": "43d6c5cb96535ed59add75a3dd318164",
     "packages": [
         {
             "name": "catfan/medoo",
@@ -405,16 +405,16 @@
         },
         {
             "name": "swoole/ide-helper",
-            "version": "dev-master",
+            "version": "4.8.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/swoole/ide-helper.git",
-                "reference": "b277ed171a29f7bbce1c5feee5581553101e06bf"
+                "reference": "62d306dcfdb7c2cd21768386955af9de387163f9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/swoole/ide-helper/zipball/b277ed171a29f7bbce1c5feee5581553101e06bf",
-                "reference": "b277ed171a29f7bbce1c5feee5581553101e06bf",
+                "url": "https://api.github.com/repos/swoole/ide-helper/zipball/62d306dcfdb7c2cd21768386955af9de387163f9",
+                "reference": "62d306dcfdb7c2cd21768386955af9de387163f9",
                 "shasum": "",
                 "mirrors": [
                     {
@@ -423,7 +423,6 @@
                     }
                 ]
             },
-            "default-branch": true,
             "type": "library",
             "notification-url": "https://packagist.org/downloads/",
             "license": [
@@ -438,7 +437,7 @@
             "description": "IDE help files for Swoole.",
             "support": {
                 "issues": "https://github.com/swoole/ide-helper/issues",
-                "source": "https://github.com/swoole/ide-helper/tree/4.8.6"
+                "source": "https://github.com/swoole/ide-helper/tree/4.8.7"
             },
             "funding": [
                 {
@@ -450,15 +449,13 @@
                     "type": "github"
                 }
             ],
-            "time": "2022-01-11T17:42:26+00:00"
+            "time": "2022-02-23T01:04:01+00:00"
         }
     ],
     "packages-dev": [],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": {
-        "swoole/ide-helper": 20
-    },
+    "stability-flags": [],
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
