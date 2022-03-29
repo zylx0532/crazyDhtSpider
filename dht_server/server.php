@@ -13,7 +13,7 @@ $config = require_once BASEPATH . '/config.php';
 require_once BASEPATH . '/inc/Func.class.php';
 require_once BASEPATH . '/inc/Bencode.class.php';
 require_once BASEPATH . '/inc/Base.class.php';
-require_once "../vendor/autoload.php";
+require_once "vendor/autoload.php";
 
 use Medoo\Medoo;
 

@@ -20,7 +20,7 @@ require_once BASEPATH . '/inc/Func.class.php';
 require_once BASEPATH . '/inc/DhtClient.class.php';
 require_once BASEPATH . '/inc/DhtServer.class.php';
 require_once BASEPATH . '/inc/Metadata.class.php';
-require_once "../vendor/autoload.php";
+require_once "vendor/autoload.php";
 
 $nid = Base::get_node_id();// 伪造设置自身node id
 $table = array();// 初始化路由表
