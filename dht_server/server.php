@@ -1,5 +1,4 @@
 <?php
-//swoole version 4.0+
 /*
  * 设置服务器 ulimit -n 65535
  * 记得放开防火墙6882端口
@@ -29,16 +28,21 @@ Co::set(['hook_flags' => SWOOLE_HOOK_ALL]);
 
 $serv->on('WorkerStart', function ($serv, $worker_id) use ($config) {
     swoole_set_process_name("php_dht_server_event_worker");
-    if (!DEBUG) {
-        $database = new Medoo([
-            'database_type' => 'mysql',
-            'database_name' => $config['db']['name'],
-            'server' => $config['db']['host'],
-            'username' => $config['db']['user'],
-            'password' => $config['db']['pass'],
-        ]);
-        $serv->mysql = $database;
+    try{
+        if (!DEBUG) {
+            $database = new Medoo([
+                'database_type' => 'mysql',
+                'database_name' => $config['db']['name'],
+                'server' => $config['db']['host'],
+                'username' => $config['db']['user'],
+                'password' => $config['db']['pass'],
+            ]);
+            $serv->mysql = $database;
+        }
+    }catch (Exception $e){
+        echo "数据库连接失败";
     }
+
 });
 
 $serv->on('Packet', function ($serv, $data, $clientInfo) {
@@ -72,27 +76,30 @@ $serv->on('Packet', function ($serv, $data, $clientInfo) {
             'time' => date('Y-m-d H:i:s'),
             'lasttime' => date('Y-m-d H:i:s'),
         ];
-        if (!DEBUG) {
-            $data = $serv->mysql->count("history", [
-                "infohash" => $rs['infohash']
-            ]);
-            if ($data > 0) {
-                $serv->mysql->update("bt", [
-                    "hot[+]" => 1,
-                    "lasttime" => date('Y-m-d H:i:s'),
-                ], [
+        try{
+            if (!DEBUG) {
+                $data = $serv->mysql->count("history", [
                     "infohash" => $rs['infohash']
                 ]);
+                if ($data > 0) {
+                    $serv->mysql->update("bt", [
+                        "hot[+]" => 1,
+                        "lasttime" => date('Y-m-d H:i:s'),
+                    ], [
+                        "infohash" => $rs['infohash']
+                    ]);
+                } else {
+                    $serv->mysql->insert("history", [
+                        "infohash" => $rs['infohash']
+                    ]);
+                    $serv->mysql->insert("bt", $bt_data);
+                }
             } else {
-                $serv->mysql->insert("history", [
-                    "infohash" => $rs['infohash']
-                ]);
-                $serv->mysql->insert("bt", $bt_data);
+                Func::Logs(json_encode($bt_data, JSON_UNESCAPED_UNICODE), 2) . PHP_EOL;
             }
-        } else {
-            Func::Logs(json_encode($bt_data, JSON_UNESCAPED_UNICODE), 2) . PHP_EOL;
+        }catch (Exception $e){
+            echo "数据插入失败";
         }
-
     }
     $serv->close(true);
 });

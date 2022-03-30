@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "43d6c5cb96535ed59add75a3dd318164",
+    "content-hash": "b6d9dd24b3bc04da3a6bd925dfd3fbe0",
     "packages": [
         {
             "name": "catfan/medoo",
@@ -348,16 +348,16 @@
         },
         {
             "name": "rhilip/bencode",
-            "version": "v1.1.1",
+            "version": "v1.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Rhilip/Bencode.git",
-                "reference": "d93fa6836ff6a0dcf199906537bce1f5eabfccf9"
+                "reference": "d12af71f45d0f928ecf1f6db7ed94ff7ad809cc7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Rhilip/Bencode/zipball/d93fa6836ff6a0dcf199906537bce1f5eabfccf9",
-                "reference": "d93fa6836ff6a0dcf199906537bce1f5eabfccf9",
+                "url": "https://api.github.com/repos/Rhilip/Bencode/zipball/d12af71f45d0f928ecf1f6db7ed94ff7ad809cc7",
+                "reference": "d12af71f45d0f928ecf1f6db7ed94ff7ad809cc7",
                 "shasum": "",
                 "mirrors": [
                     {
@@ -399,9 +399,9 @@
             ],
             "support": {
                 "issues": "https://github.com/Rhilip/Bencode/issues",
-                "source": "https://github.com/Rhilip/Bencode/tree/master"
+                "source": "https://github.com/Rhilip/Bencode/tree/v1.2.0"
             },
-            "time": "2020-02-27T10:47:16+00:00"
+            "time": "2022-02-02T13:00:02+00:00"
         },
         {
             "name": "swoole/ide-helper",
