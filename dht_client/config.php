@@ -17,5 +17,4 @@ return array(
     'task_enable_coroutine' => true,//task协程开启
     'task_max_request' => 10000, //防止 PHP 内存溢出, 一个task进程处理 X 次任务后自动重启 (注: 0,不自动重启)
     'enable_coroutine' => true,//开启协程
-    'task_time_out'=>15 //send超时时间
 );
