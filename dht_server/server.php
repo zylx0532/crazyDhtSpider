@@ -40,7 +40,7 @@ $serv->on('WorkerStart', function ($serv, $worker_id) use ($config) {
             $serv->mysql = $database;
         }
     }catch (Exception $e){
-        echo "数据库连接失败";
+        Func::Logs("数据库连接失败".PHP_EOL);
     }
 
 });
@@ -98,7 +98,7 @@ $serv->on('Packet', function ($serv, $data, $clientInfo) {
                 Func::Logs(json_encode($bt_data, JSON_UNESCAPED_UNICODE), 2) . PHP_EOL;
             }
         }catch (Exception $e){
-            echo "数据插入失败";
+            Func::Logs("数据插入失败".PHP_EOL);
         }
     }
     $serv->close(true);
