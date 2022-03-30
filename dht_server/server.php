@@ -52,11 +52,10 @@ $serv->on('Packet', function ($serv, $data, $clientInfo) {
     }
     $rs = Base::decode($data);
     if (is_array($rs) && isset($rs['infohash'])) {
-        $files = '';
         $length = 0;
-        if ($rs['files'] != '') {
+        if (!empty($rs['files'])) {
             $files = json_encode(Func::array_transcoding($rs['files']), JSON_UNESCAPED_UNICODE);
-            if($files==0){
+            if(!$files){
                 return false;
             }
             foreach ($rs['files'] as $value) {
