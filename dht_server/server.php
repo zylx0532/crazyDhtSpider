@@ -28,7 +28,7 @@ Co::set(['hook_flags' => SWOOLE_HOOK_ALL]);
 
 $serv->on('WorkerStart', function ($serv, $worker_id) use ($config) {
     swoole_set_process_name("php_dht_server_event_worker");
-    try{
+    try {
         if (!DEBUG) {
             $database = new Medoo([
                 'database_type' => 'mysql',
@@ -39,8 +39,8 @@ $serv->on('WorkerStart', function ($serv, $worker_id) use ($config) {
             ]);
             $serv->mysql = $database;
         }
-    }catch (Exception $e){
-        Func::Logs("数据库连接失败".PHP_EOL);
+    } catch (Exception $e) {
+        Func::Logs("数据库连接失败" . PHP_EOL);
     }
 
 });
@@ -55,7 +55,7 @@ $serv->on('Packet', function ($serv, $data, $clientInfo) {
         $length = 0;
         if (!empty($rs['files'])) {
             $files = json_encode(Func::array_transcoding($rs['files']), JSON_UNESCAPED_UNICODE);
-            if(!$files){
+            if (!$files) {
                 return false;
             }
             foreach ($rs['files'] as $value) {
@@ -75,7 +75,7 @@ $serv->on('Packet', function ($serv, $data, $clientInfo) {
             'time' => date('Y-m-d H:i:s'),
             'lasttime' => date('Y-m-d H:i:s'),
         ];
-        try{
+        try {
             if (!DEBUG) {
                 $data = $serv->mysql->count("history", [
                     "infohash" => $rs['infohash']
@@ -94,10 +94,10 @@ $serv->on('Packet', function ($serv, $data, $clientInfo) {
                     $serv->mysql->insert("bt", $bt_data);
                 }
             } else {
-                Func::Logs(json_encode($bt_data, JSON_UNESCAPED_UNICODE), 2) . PHP_EOL;
+                Func::Logs(json_encode($bt_data, JSON_UNESCAPED_UNICODE) . PHP_EOL, 2);
             }
-        }catch (Exception $e){
-            Func::Logs("数据插入失败".PHP_EOL);
+        } catch (Exception $e) {
+            Func::Logs("数据插入失败" . PHP_EOL);
         }
     }
     $serv->close(true);
