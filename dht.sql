@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- 主机： localhost
--- 生成日期： 2022-01-30 21:46:34
--- 服务器版本： 5.6.50-log
--- PHP 版本： 8.0.14
+-- 生成日期： 2022-04-01 15:55:50
+-- 服务器版本： 5.7.37-log
+-- PHP 版本： 7.4.28
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -29,11 +29,11 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `bt` (
   `name` varchar(500) NOT NULL COMMENT '名称',
-  `keywords` varchar(250) NOT NULL COMMENT '关键词',
+  `keywords` varchar(250) DEFAULT NULL COMMENT '关键词',
   `length` bigint(20) NOT NULL DEFAULT '0' COMMENT '文件大小',
   `piece_length` int(11) NOT NULL DEFAULT '0' COMMENT '种子大小',
   `infohash` char(40) NOT NULL COMMENT '种子哈希值',
-  `files` text NOT NULL COMMENT '文件列表',
+  `files` text COMMENT '文件列表',
   `hits` int(11) NOT NULL DEFAULT '0' COMMENT '点击量',
   `hot` int(11) NOT NULL DEFAULT '1' COMMENT '热度',
   `time` datetime NOT NULL COMMENT '收录时间',
