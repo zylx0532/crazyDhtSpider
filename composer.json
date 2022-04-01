@@ -4,7 +4,7 @@
         "catfan/medoo": "^1.7",
         "swoole/ide-helper": "^4.8",
         "elasticsearch/elasticsearch": "^7.11",
-        "rhilip/bencode": "1.2.0",
+        "rhilip/bencode": "^2.1",
       "ext-mbstring": "*"
     }
 }

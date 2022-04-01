@@ -5,7 +5,7 @@
         'type' => 'library',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
-        'reference' => '8a973833bcff948a70adf5bb4a2b6457af36bf71',
+        'reference' => 'ef28b66c4124e2e0d2dbde2fb67b2815b608a968',
         'name' => '__root__',
         'dev' => true,
     ),
@@ -16,7 +16,7 @@
             'type' => 'library',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
-            'reference' => '8a973833bcff948a70adf5bb4a2b6457af36bf71',
+            'reference' => 'ef28b66c4124e2e0d2dbde2fb67b2815b608a968',
             'dev_requirement' => false,
         ),
         'catfan/medoo' => array(
@@ -74,12 +74,12 @@
             'dev_requirement' => false,
         ),
         'rhilip/bencode' => array(
-            'pretty_version' => 'v1.2.0',
-            'version' => '1.2.0.0',
+            'pretty_version' => 'v2.1.1',
+            'version' => '2.1.1.0',
             'type' => 'library',
             'install_path' => __DIR__ . '/../rhilip/bencode',
             'aliases' => array(),
-            'reference' => 'd12af71f45d0f928ecf1f6db7ed94ff7ad809cc7',
+            'reference' => '38a445a04db54034a155b4a40985fec715b607bc',
             'dev_requirement' => false,
         ),
         'swoole/ide-helper' => array(

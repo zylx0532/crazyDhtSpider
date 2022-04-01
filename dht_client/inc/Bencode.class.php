@@ -1,6 +1,6 @@
 <?php
 use Rhilip\Bencode\Bencode as Bencode2;
-use Rhilip\Bencode\ParseErrorException;
+use Rhilip\Bencode\ParseException;
 /**
  * bencode编码解码类
  */
@@ -15,7 +15,7 @@ class Bencode
     {
         try{
             return Bencode2::decode($str);
-        }catch (ParseErrorException $e){
+        }catch (ParseException $e){
             $e->getMessage();
         }
     }
