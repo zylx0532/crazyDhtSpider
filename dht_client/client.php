@@ -48,8 +48,9 @@ $serv->on('WorkerStart', function ($serv, $worker_id) {
     } else {
         swoole_set_process_name("php_dht_client_event_worker");
     }
+    //每分钟向文件覆盖写入一次work status信息，用来监控运行状态
     swoole_timer_tick(60000, function ($timer_id) use ($serv) {
-        Func::Logs(json_encode($serv->stats()) . PHP_EOL,3);
+        Func::Logs(json_encode($serv->stats()) . PHP_EOL, 3);
     });
     swoole_timer_tick(AUTO_FIND_TIME, function ($timer_id) {
         global $table, $bootstrap_nodes;
