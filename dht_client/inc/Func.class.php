@@ -11,14 +11,17 @@ class Func
     public static function Logs($msg, $type = 1)
     {
         if ($type == 1) { //启动信息
+            $mode = 'ab';
             $path = BASEPATH . '/logs/start_' . date('Ymd') . '.log';
         } elseif ($type == 2) { //hash信息
+            $mode = 'ab';
             $path = BASEPATH . '/logs/hashInfo_' . date('Ymd') . '.log';
         } else {
+            $mode = 'w';
             $path = BASEPATH . '/logs/otherInfo_' . date('Ymd') . '.log';
         }
 
-        $fp = fopen($path, 'ab');
+        $fp = fopen($path, $mode);
         fwrite($fp, $msg);
         fclose($fp);
     }
