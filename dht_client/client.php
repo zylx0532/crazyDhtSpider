@@ -8,8 +8,8 @@ ini_set('date.timezone', 'Asia/Shanghai');
 ini_set("memory_limit", "-1");
 define('BASEPATH', dirname(__FILE__));
 $config = require_once BASEPATH . '/config.php';
-define('AUTO_FIND_TIME', 1000);//定时寻找节点时间间隔 /毫秒
-define('MAX_NODE_SIZE', 200);//保存node_id最大数量,不要设置太大，没有必要
+define('AUTO_FIND_TIME', 1000); //定时寻找节点时间间隔 /毫秒
+define('MAX_NODE_SIZE', 200); //保存node_id最大数量,不要设置太大，没有必要
 define('BIG_ENDIAN', pack('L', 1) === pack('N', 1));
 
 require_once BASEPATH . '/inc/Node.class.php';
@@ -21,8 +21,8 @@ require_once BASEPATH . '/inc/DhtServer.class.php';
 require_once BASEPATH . '/inc/Metadata.class.php';
 require_once "vendor/autoload.php";
 
-$nid = Base::get_node_id();// 伪造设置自身node id
-$table = array();// 初始化路由表
+$nid = Base::get_node_id(); // 伪造设置自身node id
+$table = array(); // 初始化路由表
 $time = microtime(true);
 // 长期在线node
 $bootstrap_nodes = array(
@@ -45,21 +45,21 @@ $serv->set($config);
 $serv->on('WorkerStart', function ($serv, $worker_id) {
     if ($worker_id >= $serv->setting['worker_num']) {
         swoole_set_process_name("php_dht_client_task_worker");
+        swoole_timer_tick(AUTO_FIND_TIME, function ($timer_id) {
+            global $table, $bootstrap_nodes;
+            gc_mem_caches(); //清理内存碎片
+            if (count($table) == 0) {
+                DhtServer::join_dht($table, $bootstrap_nodes);
+            } else {
+                DhtServer::auto_find_node($table, $bootstrap_nodes);
+            }
+        });
     } else {
         swoole_set_process_name("php_dht_client_event_worker");
     }
     //每分钟向文件覆盖写入一次work status信息，用来监控运行状态
     swoole_timer_tick(60000, function ($timer_id) use ($serv) {
         Func::Logs(json_encode($serv->stats()) . PHP_EOL, 3);
-    });
-    swoole_timer_tick(AUTO_FIND_TIME, function ($timer_id) {
-        global $table, $bootstrap_nodes;
-        gc_mem_caches();//清理内存碎片
-        if (count($table) == 0) {
-            DhtServer::join_dht($table, $bootstrap_nodes);
-        } else {
-            DhtServer::auto_find_node($table, $bootstrap_nodes);
-        }
     });
 });
 
@@ -115,7 +115,6 @@ $serv->on('WorkerExit', function ($server, $worker_id) {
 });
 
 $serv->on('finish', function ($server, $task_id, $data) {
-
 });
 
 $serv->start();

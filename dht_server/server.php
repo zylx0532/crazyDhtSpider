@@ -46,7 +46,6 @@ $serv->on('WorkerStart', function ($serv, $worker_id) use ($config) {
     } catch (Exception $e) {
         Func::Logs("数据库连接失败" . PHP_EOL);
     }
-
 });
 
 $serv->on('Packet', function ($serv, $data, $clientInfo) {
