@@ -1,11 +1,9 @@
 {
     "require": {
     "ext-json": "*",
-        "catfan/medoo": "^1.7",
+        "catfan/medoo": "^2.1",
         "swoole/ide-helper": "^4.8",
-        "elasticsearch/elasticsearch": "^7.11",
-        "rhilip/bencode": "^2.1",
-      "ext-mbstring": "*",
-      "ext-redis": "*"
+        "rhilip/bencode": "^2.3",
+      "ext-mbstring": "*"
     }
 }
