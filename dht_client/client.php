@@ -4,11 +4,11 @@
  * 记得放开防火墙6882端口
  */
 define('BASEPATH', dirname(__FILE__));
-$config = require_once BASEPATH . '/config.php';
 define('AUTO_FIND_TIME', 1000); //定时寻找节点时间间隔 /毫秒
 define('MAX_NODE_SIZE', 200); //保存node_id最大数量,不要设置太大，没有必要
 define('BIG_ENDIAN', pack('L', 1) === pack('N', 1));
 
+$config = require_once BASEPATH . '/config.php';
 require_once BASEPATH . '/inc/Node.class.php';
 require_once BASEPATH . '/inc/Bencode.class.php';
 require_once BASEPATH . '/inc/Base.class.php';
