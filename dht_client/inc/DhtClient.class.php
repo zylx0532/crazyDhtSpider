@@ -215,7 +215,7 @@ class DhtClient
         // 发送请求回复
         DhtServer::send_response($msg, $address);
 
-        $task_id = $serv->taskwait(array('ip' => $ip, 'port' => $port, 'infohash' => serialize($infohash)),$config['task_time_out']);
+        $task_id = $serv->task(array('ip' => $ip, 'port' => $port, 'infohash' => serialize($infohash)));
         //echo "Dispath AsyncTask: [id=$task_id]\n";
         return;
     }
