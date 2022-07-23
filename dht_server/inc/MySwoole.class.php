@@ -44,6 +44,7 @@ class MySwoole
                     $length += $value['length'];
                 }
             } else {
+                $files='';
                 $length = $rs['length'];
             }
             $bt_data = [
