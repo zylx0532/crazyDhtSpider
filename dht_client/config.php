@@ -14,7 +14,7 @@ return array(
     'max_wait_time' => 3, //worker退出之前最大等待时间
     'dispatch_mode' => 1, //收到会轮循分配给每一个 Worker 进程
     'log_level' => 'SWOOLE_LOG_WARNING', //日志级别设置,生产环境可以配置为SWOOLE_LOG_ERROR
-    'log_file' => "BASEPATH . '/logs/error.log'", //错误日志目录
+    'log_file' => BASEPATH . '/logs/error.log', //错误日志目录
     'heartbeat_check_interval' => 5, //启用心跳检测，此选项表示每隔多久轮循一次，单位为秒
     'heartbeat_idle_time' => 10, //与heartbeat_check_interval配合使用。表示连接最大允许空闲的时间
     'task_enable_coroutine' => true, //task协程开启
