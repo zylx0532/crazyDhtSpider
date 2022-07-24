@@ -38,7 +38,6 @@ class MySwoole
             return false;
         }
         $msg = Base::decode($data);
-        var_dump($msg);
         try {
             if (!isset($msg['y'])) {
                 return false;
@@ -53,7 +52,7 @@ class MySwoole
                 DhtClient::request_action($msg, array($fdinfo['address'], $fdinfo['port']));
             }
         } catch (Exception $e) {
-            var_dump($e->getMessage());
+            echo $e->getMessage();
         }
     }
 
