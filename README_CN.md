@@ -1,8 +1,6 @@
 crazyDhtSpider
 ====== 
- 本项目是在phpDhtSpider基础上修改而来：https://github.com/cuijun123/phpDhtSpider  
-
- 感谢原作者的辛苦付出
+ 本项目是在phpDhtSpider基础上修改而来：https://github.com/cuijun123/phpDhtSpider
 ***
 ## php实现的dht爬虫（分布式）
 

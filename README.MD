@@ -1,8 +1,6 @@
 crazyDhtSpider
 ======
-  This project is based on phpDhtSpider modification：https://github.com/cuijun123/phpDhtSpider  
-
-  Thanks for the hard work of the original author
+  This project is based on phpDhtSpider modification：https://github.com/cuijun123/phpDhtSpider
 ***
 **[中文说明](README_CN.md)**
 
