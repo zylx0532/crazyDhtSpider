@@ -40,6 +40,8 @@ crazyDhtSpider
 
 5、 At the beginning of the operation, because the node information is less, the data is relatively slow to obtain, the longer the operation time, the better the effect
 
-6、This tool is mainly used for study and research. I shall not be responsible for any disputes or legal problems arising from the use of this tool
+6、The 'files' field in the 'bt' table is the result of Base64 encryption.
+
+7、This tool is mainly used for study and research. I shall not be responsible for any disputes or legal problems arising from the use of this tool
 
 
