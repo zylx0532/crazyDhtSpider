@@ -7,6 +7,7 @@ define('BASEPATH', dirname(__FILE__));
 define('DEBUG', false);
 $config = require_once BASEPATH . '/config.php';
 require_once BASEPATH . '/inc/Func.class.php';
+require_once BASEPATH . '/inc/DbPool.class.php';
 require_once BASEPATH . '/inc/Bencode.class.php';
 require_once BASEPATH . '/inc/Base.class.php';
 require_once BASEPATH . '/inc/MySwoole.class.php';
