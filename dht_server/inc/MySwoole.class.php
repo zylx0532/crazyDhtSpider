@@ -61,7 +61,6 @@ class MySwoole
                 Func::Logs(json_encode($bt_data, JSON_UNESCAPED_UNICODE) . PHP_EOL, 2);
                 return true;
             }
-            echo $bt_data['infohash'] . '---' . $bt_data['name'] . PHP_EOL;
             $data = $serv->db->medoo()->select("history", ['infohash'], [
                 "infohash" => $rs['infohash']
             ]);
