@@ -1,7 +1,5 @@
 <?php
 
-use Medoo\Medoo;
-
 class MySwoole
 {
     public static function workStart($serv, $worker_id)
@@ -31,53 +29,18 @@ class MySwoole
         if (!is_array($rs) || !isset($rs['infohash'])) {
             return false;
         }
-        $length = 0;
-        if (!empty($rs['files'])) {
-            $files = json_encode(Func::array_transcoding($rs['files']), JSON_UNESCAPED_UNICODE);
-            if (!$files) {
-                return false;
-            }
-            foreach ($rs['files'] as $value) {
-                $length += $value['length'];
-            }
-        } else {
-            $files = '';
-            $length = $rs['length'];
+        if (empty(Func::getBtFiles($rs))) {
+            return false;
         }
-        $bt_data = [
-            'name' => $rs['name'],
-            'keywords' => Func::getKeyWords($rs['name']),
-            'infohash' => $rs['infohash'],
-            'files' => base64_encode($files),
-            'length' => $length,
-            'piece_length' => $rs['piece_length'],
-            'hits' => 0,
-            'hot' => 1,
-            'time' => date('Y-m-d H:i:s'),
-            'lasttime' => date('Y-m-d H:i:s'),
-        ];
+        $rs = Func::getBtFiles($rs);
+        $bt_data = Func::getBtData($rs);
+        if (DEBUG) {
+            Func::Logs(json_encode($bt_data, JSON_UNESCAPED_UNICODE) . PHP_EOL, 2);
+            return false;
+        }
         try {
-            if (DEBUG) {
-                Func::Logs(json_encode($bt_data, JSON_UNESCAPED_UNICODE) . PHP_EOL, 2);
-                return false;
-            }
-            go(function () use ($bt_data,$serv,$rs){
-                $data = $serv->db->medoo()->select("history", ['infohash'], [
-                    "infohash" => $rs['infohash']
-                ]);
-                if (!empty($data)) {
-                    $serv->db->medoo()->update("bt", [
-                        "hot[+]" => 1,
-                        "lasttime" => date('Y-m-d H:i:s'),
-                    ], [
-                        "infohash" => $rs['infohash']
-                    ]);
-                } else {
-                    $serv->db->medoo()->insert("history", [
-                        "infohash" => $rs['infohash']
-                    ]);
-                    $serv->db->medoo()->insert("bt", $bt_data);
-                }
+            go(function () use ($bt_data, $rs) {
+                DbPool::sourceQuery($rs, $bt_data);
             });
 
         } catch (Exception $e) {
@@ -85,6 +48,7 @@ class MySwoole
         }
 
         $serv->close(true);
+        return true;
     }
 
     public static function task(Swoole\Server $server, Swoole\Server\Task $task)

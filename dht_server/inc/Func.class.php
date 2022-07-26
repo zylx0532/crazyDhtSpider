@@ -104,4 +104,39 @@ class Func
             }
         }
     }
+
+    public static function getBtData(array $data): array
+    {
+        return [
+            'name' => $data['name'],
+            'keywords' => Func::getKeyWords($data['name']),
+            'infohash' => $data['infohash'],
+            'files' => base64_encode($data['files_json']),
+            'length' => $data['files_length'],
+            'piece_length' => $data['piece_length'],
+            'hits' => 0,
+            'hot' => 1,
+            'time' => date('Y-m-d H:i:s'),
+            'lasttime' => date('Y-m-d H:i:s'),
+        ];
+    }
+
+    public static function getBtFiles(array $data): array
+    {
+        $length = 0;
+        if (!empty($data['files'])) {
+            $data['files_json'] = json_encode(Func::array_transcoding($data['files']), JSON_UNESCAPED_UNICODE);
+            if (!$data['files_json']) {
+                return [];
+            }
+            foreach ($data['files'] as $value) {
+                $length += $value['length'];
+            }
+            $data['files_length'] = $length;
+        } else {
+            $data['files_json'] = '';
+            $data['files_length'] = $data['length'];
+        }
+        return $data;
+    }
 }
