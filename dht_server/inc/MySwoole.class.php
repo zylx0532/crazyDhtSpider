@@ -59,24 +59,27 @@ class MySwoole
         try {
             if (DEBUG) {
                 Func::Logs(json_encode($bt_data, JSON_UNESCAPED_UNICODE) . PHP_EOL, 2);
-                return true;
+                return false;
             }
-            $data = $serv->db->medoo()->select("history", ['infohash'], [
-                "infohash" => $rs['infohash']
-            ]);
-            if (!empty($data)) {
-                $serv->db->medoo()->update("bt", [
-                    "hot[+]" => 1,
-                    "lasttime" => date('Y-m-d H:i:s'),
-                ], [
+            go(function () use ($bt_data,$serv,$rs){
+                $data = $serv->db->medoo()->select("history", ['infohash'], [
                     "infohash" => $rs['infohash']
                 ]);
-            } else {
-                $serv->db->medoo()->insert("history", [
-                    "infohash" => $rs['infohash']
-                ]);
-                $serv->db->medoo()->insert("bt", $bt_data);
-            }
+                if (!empty($data)) {
+                    $serv->db->medoo()->update("bt", [
+                        "hot[+]" => 1,
+                        "lasttime" => date('Y-m-d H:i:s'),
+                    ], [
+                        "infohash" => $rs['infohash']
+                    ]);
+                } else {
+                    $serv->db->medoo()->insert("history", [
+                        "infohash" => $rs['infohash']
+                    ]);
+                    $serv->db->medoo()->insert("bt", $bt_data);
+                }
+            });
+
         } catch (Exception $e) {
             Func::Logs("数据插入失败" . $e->getMessage() . PHP_EOL);
         }

@@ -16,7 +16,7 @@ require_once "vendor/autoload.php";
 Func::Logs(date('Y-m-d H:i:s', time()) . " - 服务启动..." . PHP_EOL, 1);
 $serv = new Swoole\Server('0.0.0.0', 2345, SWOOLE_PROCESS, SWOOLE_SOCK_UDP);
 $serv->set($config);
-Co::set(['hook_flags' => SWOOLE_HOOK_ALL]);
+Swoole\Coroutine::set(['hook_flags' => SWOOLE_HOOK_ALL]);
 $serv->on('WorkerStart', 'MySwoole::workStart');
 $serv->on('Packet', 'MySwoole::packet');
 $serv->on('WorkerExit', 'MySwoole::workerExit');

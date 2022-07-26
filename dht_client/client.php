@@ -30,7 +30,7 @@ $bootstrap_nodes = array(
 );
 
 Func::Logs(date('Y-m-d H:i:s', time()) . " - 服务启动..." . PHP_EOL, 1);
-Co::set(['hook_flags' => SWOOLE_HOOK_ALL]);
+Swoole\Coroutine::set(['hook_flags' => SWOOLE_HOOK_ALL]);
 $serv = new Swoole\Server('0.0.0.0', 6882, SWOOLE_PROCESS, SWOOLE_SOCK_UDP);
 $serv->set($config);
 $serv->on('WorkerStart', 'MySwoole::workStart');
