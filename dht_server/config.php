@@ -12,7 +12,7 @@ return array(
     'enable_coroutine' => false, //是否开启协程
     'worker_num' => 4, //设置启动的worker进程数
     'max_request' => 0, //防止 PHP 内存溢出, 一个工作进程处理 X 次任务后自动重启 (注: 0,不自动重启)
-    'dispatch_mode' => 2, //保证同一个连接发来的数据只会被同一个worker处理
+    'dispatch_mode' => 1, //收到会轮循分配给每一个 Worker 进程
     'discard_timeout_request' => false, //是否丢弃已关闭链接的数据请求
     'log_level' => SWOOLE_LOG_WARNING, //日志级别设置
     'log_file' => BASEPATH . '/logs/error.log', //日志路径

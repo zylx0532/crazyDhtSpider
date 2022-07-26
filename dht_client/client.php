@@ -3,6 +3,7 @@
  * 设置服务器 ulimit -n 65535
  * 记得放开防火墙6882端口
  */
+error_reporting(E_ERROR );
 define('BASEPATH', dirname(__FILE__));
 define('AUTO_FIND_TIME', 1000); //定时寻找节点时间间隔 /毫秒
 define('MAX_NODE_SIZE', 200); //保存node_id最大数量,不要设置太大，没有必要
