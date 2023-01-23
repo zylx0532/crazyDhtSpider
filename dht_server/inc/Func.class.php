@@ -111,7 +111,7 @@ class Func
             'name' => $data['name'],
             'keywords' => Func::getKeyWords($data['name']),
             'infohash' => $data['infohash'],
-            'files' => base64_encode($data['files_json']),
+            'files' => $data['files_json'],
             'length' => $data['files_length'],
             'piece_length' => $data['piece_length'],
             'hits' => 0,
