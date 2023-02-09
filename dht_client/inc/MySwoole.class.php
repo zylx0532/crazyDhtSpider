@@ -9,13 +9,11 @@ class MySwoole
         } else {
             swoole_set_process_name("php_dht_client_event_worker");
         }
-        if($worker_id==1){
-            //每分钟向文件覆盖写入一次work status信息，用来监控运行状态
-            swoole_timer_tick(60000, function ($timer_id) use ($serv) {
-                Func::Logs(json_encode($serv->stats()) . PHP_EOL, 3);
-            });
-        }
-        swoole_timer_tick(AUTO_FIND_TIME, function ($timer_id) {
+        //每分钟向文件覆盖写入一次work status信息，用来监控运行状态
+        /*swoole_timer_tick(60000, function ($timer_id) use ($serv) {
+            Func::Logs(json_encode($serv->stats()) . PHP_EOL, 3);
+        });*/
+        swoole_timer_tick(AUTO_FIND_TIME, function ($timer_id) use ($stats) {
             global $table, $bootstrap_nodes;
             gc_mem_caches(); //清理内存碎片
             if (count($table) == 0) {
@@ -63,7 +61,7 @@ class MySwoole
         $port = $task->data['port'];
         $infohash = unserialize($task->data['infohash']);
         $client = new Swoole\Client(SWOOLE_SOCK_TCP, SWOOLE_SOCK_SYNC);
-        if (!@$client->connect($ip, $port, 0.5)) {
+        if (!@$client->connect($ip, $port, 0.8)) {
             @$client->close(true);
         } else {
             $rs = Metadata::download_metadata($client, $infohash);
@@ -82,6 +80,5 @@ class MySwoole
 
     public static function finish($server, $task_id, $data)
     {
-
     }
 }
