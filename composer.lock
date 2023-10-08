@@ -8,16 +8,16 @@
     "packages": [
         {
             "name": "catfan/medoo",
-            "version": "v2.1.7",
+            "version": "v2.1.10",
             "source": {
                 "type": "git",
                 "url": "https://github.com/catfan/Medoo.git",
-                "reference": "74be58f80d330d1075ef3bfd0fb3d057349597ae"
+                "reference": "eb1ad19d127bd358b9a44abc60166b4a2c19a988"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/catfan/Medoo/zipball/74be58f80d330d1075ef3bfd0fb3d057349597ae",
-                "reference": "74be58f80d330d1075ef3bfd0fb3d057349597ae",
+                "url": "https://api.github.com/repos/catfan/Medoo/zipball/eb1ad19d127bd358b9a44abc60166b4a2c19a988",
+                "reference": "eb1ad19d127bd358b9a44abc60166b4a2c19a988",
                 "shasum": ""
             },
             "require": {
@@ -80,20 +80,20 @@
                     "type": "open_collective"
                 }
             ],
-            "time": "2022-07-02T04:27:50+00:00"
+            "time": "2023-06-10T07:54:55+00:00"
         },
         {
             "name": "rhilip/bencode",
-            "version": "v2.3.1",
+            "version": "v2.3.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Rhilip/Bencode.git",
-                "reference": "8ebf93f9213315407bbb91f6aa7d5e5f5efa3892"
+                "reference": "fd37d13bb745352d40879dbbfa6da85af91e49f1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Rhilip/Bencode/zipball/8ebf93f9213315407bbb91f6aa7d5e5f5efa3892",
-                "reference": "8ebf93f9213315407bbb91f6aa7d5e5f5efa3892",
+                "url": "https://api.github.com/repos/Rhilip/Bencode/zipball/fd37d13bb745352d40879dbbfa6da85af91e49f1",
+                "reference": "fd37d13bb745352d40879dbbfa6da85af91e49f1",
                 "shasum": ""
             },
             "require": {
@@ -129,22 +129,22 @@
             ],
             "support": {
                 "issues": "https://github.com/Rhilip/Bencode/issues",
-                "source": "https://github.com/Rhilip/Bencode/tree/v2.3.1"
+                "source": "https://github.com/Rhilip/Bencode/tree/v2.3.3"
             },
-            "time": "2022-07-17T11:19:47+00:00"
+            "time": "2023-05-27T01:47:00+00:00"
         },
         {
             "name": "swoole/ide-helper",
-            "version": "4.8.11",
+            "version": "4.8.13",
             "source": {
                 "type": "git",
                 "url": "https://github.com/swoole/ide-helper.git",
-                "reference": "edcf955501271b1fd5d77efef31027b1e08f4a85"
+                "reference": "d100c446b2e3d56430cbcab5dc3fa20a9f35c4ef"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/swoole/ide-helper/zipball/edcf955501271b1fd5d77efef31027b1e08f4a85",
-                "reference": "edcf955501271b1fd5d77efef31027b1e08f4a85",
+                "url": "https://api.github.com/repos/swoole/ide-helper/zipball/d100c446b2e3d56430cbcab5dc3fa20a9f35c4ef",
+                "reference": "d100c446b2e3d56430cbcab5dc3fa20a9f35c4ef",
                 "shasum": ""
             },
             "type": "library",
@@ -161,19 +161,9 @@
             "description": "IDE help files for Swoole.",
             "support": {
                 "issues": "https://github.com/swoole/ide-helper/issues",
-                "source": "https://github.com/swoole/ide-helper/tree/4.8.11"
+                "source": "https://github.com/swoole/ide-helper/tree/4.8.13"
             },
-            "funding": [
-                {
-                    "url": "https://gitee.com/swoole/swoole?donate=true",
-                    "type": "custom"
-                },
-                {
-                    "url": "https://github.com/swoole",
-                    "type": "github"
-                }
-            ],
-            "time": "2022-07-09T06:20:31+00:00"
+            "time": "2023-03-20T06:46:24+00:00"
         }
     ],
     "packages-dev": [],
@@ -187,5 +177,5 @@
         "ext-mbstring": "*"
     },
     "platform-dev": [],
-    "plugin-api-version": "2.3.0"
+    "plugin-api-version": "2.6.0"
 }

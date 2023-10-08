@@ -1,12 +1,5 @@
 <?php
 return array(
-    'db' => array(
-        'host' => '127.0.0.1',
-        'port' => '3306',
-        'user' => 'dht',
-        'pass' => '',
-        'name' => '',
-    ),
     'reload_async' => true, //设置为 true 时，将启用异步安全重启特性，Worker 进程会等待异步事件完成后再退出
     'daemonize' => true, //是否后台守护进程
     'enable_coroutine' => false, //是否开启协程

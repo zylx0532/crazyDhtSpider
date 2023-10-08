@@ -6,13 +6,13 @@ class DbPool
 {
     public static function medoo():Medoo
     {
-        global $config;
+        global $database_config;
         return new Medoo([
             'database_type' => 'mysql',
-            'database_name' => $config['db']['name'],
-            'server' => $config['db']['host'],
-            'username' => $config['db']['user'],
-            'password' => $config['db']['pass'],
+            'database_name' => $database_config['db']['name'],
+            'server' => $database_config['db']['host'],
+            'username' => $database_config['db']['user'],
+            'password' => $database_config['db']['pass'],
         ]);
     }
     public static function sourceQuery($rs,$bt_data):void

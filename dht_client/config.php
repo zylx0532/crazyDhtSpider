@@ -1,7 +1,4 @@
 <?php
-/*此配置为2核4Gvps上的参数，其他配置服务器请自行设置
- *task_worker_num 越多，占用内存越大，可以按照每个woker平均占用20M内存来计算总的内存需求
- */
 return array(
     'daemonize' => true, //是否后台守护进程
     'worker_num' => 4, // 主进程数, 一般为CPU的1至4倍 同时执行任务数量 根据自己的实际情况设置

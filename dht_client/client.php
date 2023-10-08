@@ -37,5 +37,5 @@ $serv->on('WorkerStart', 'MySwoole::workStart');
 $serv->on('Packet', 'MySwoole::packet');
 $serv->on('task', 'MySwoole::task');
 $serv->on('WorkerExit', 'MySwoole::workerExit');
-$serv->on('finish', '\MySwoole::finish');
+$serv->on('finish', 'MySwoole::finish');
 $serv->start();
