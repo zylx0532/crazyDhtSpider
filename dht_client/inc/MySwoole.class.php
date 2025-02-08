@@ -10,16 +10,18 @@ class MySwoole
             swoole_set_process_name("php_dht_client_event_worker");
         }
         //每分钟向文件覆盖写入一次work status信息，用来监控运行状态
-        /*swoole_timer_tick(60000, function ($timer_id) use ($serv) {
+        swoole_timer_tick(60000, function ($timer_id) use ($serv) {
             Func::Logs(json_encode($serv->stats()) . PHP_EOL, 3);
-        });*/
-        swoole_timer_tick(AUTO_FIND_TIME, function ($timer_id) use ($stats) {
+        });
+        swoole_timer_tick(AUTO_FIND_TIME, function ($timer_id) use ($stats, $serv) {
             global $table, $bootstrap_nodes;
             gc_mem_caches(); //清理内存碎片
             if (count($table) == 0) {
                 DhtServer::join_dht($table, $bootstrap_nodes);
             } else {
-                DhtServer::auto_find_node($table, $bootstrap_nodes);
+                 if ($serv->stats()['idle_worker_num'] > 20) {
+                    DhtServer::auto_find_node($table, $bootstrap_nodes);
+                }
             }
         });
     }
@@ -73,12 +75,12 @@ class MySwoole
         $task->finish("OK");
     }
 
-    public static function workerExit($server, $worker_id)
+    public static function workerExit($serv, $worker_id)
     {
         Swoole\Timer::clearAll();
     }
 
-    public static function finish($server, $task_id, $data)
+    public static function finish($serv, $task_id, $data)
     {
     }
 }

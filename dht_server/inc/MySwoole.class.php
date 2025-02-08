@@ -51,17 +51,17 @@ class MySwoole
         return true;
     }
 
-    public static function task(Swoole\Server $server, Swoole\Server\Task $task)
+    public static function task(Swoole\Server $serv, Swoole\Server\Task $task)
     {
 
     }
 
-    public static function workerExit($server, $worker_id)
+    public static function workerExit($serv, $worker_id)
     {
         Swoole\Timer::clearAll();
     }
 
-    public static function finish($server, $task_id, $data)
+    public static function finish($serv, $task_id, $data)
     {
 
     }
