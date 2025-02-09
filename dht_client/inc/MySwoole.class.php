@@ -13,13 +13,13 @@ class MySwoole
         swoole_timer_tick(60000, function ($timer_id) use ($serv) {
             Func::Logs(json_encode($serv->stats()) . PHP_EOL, 3);
         });
-        swoole_timer_tick(AUTO_FIND_TIME, function ($timer_id) use ($stats, $serv) {
+        swoole_timer_tick(AUTO_FIND_TIME, function ($timer_id) use ($serv) {
             global $table, $bootstrap_nodes;
             gc_mem_caches(); //清理内存碎片
             if (count($table) == 0) {
                 DhtServer::join_dht($table, $bootstrap_nodes);
             } else {
-                 if ($serv->stats()['idle_worker_num'] > 20) {
+                 if ($serv->stats()['idle_worker_num'] > 30) {
                     DhtServer::auto_find_node($table, $bootstrap_nodes);
                 }
             }

@@ -7,7 +7,7 @@ return array(
     'server_port' => 2345, //服务端端口
     'max_conn' => 65535, //最大连接数
     'reload_async' => true, //设置为 true 时，将启用异步安全重启特性，Worker 进程会等待异步事件完成后再退出
-    'max_request' => 0, //防止 PHP 内存溢出, 一个工作进程处理 X 次任务后自动重启 (注: 0,不自动重启)
+    'max_request' => 10000, //防止 PHP 内存溢出, 一个工作进程处理 X 次任务后自动重启 (注: 0,不自动重启)
     'max_wait_time' => 3, //worker退出之前最大等待时间
     'dispatch_mode' => 1, //收到会轮循分配给每一个 Worker 进程
     'discard_timeout_request' => false, //是否丢弃已关闭链接的数据请求
