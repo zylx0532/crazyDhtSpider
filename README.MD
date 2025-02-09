@@ -30,7 +30,7 @@ crazyDhtSpider
 
 =============================================================
 
-1、There will be a few error logs during operation, which will not affect the use.
+1、There will be error logs during operation, which will not affect the use.If the log files are too large, you can clear them using scheduled tasks
 
 2、Note that 'daemonize'=>false in config.php.  You can decide whether to start the background daemon or not
 
