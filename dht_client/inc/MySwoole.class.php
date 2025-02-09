@@ -12,6 +12,11 @@ class MySwoole
         //每分钟向文件覆盖写入一次work status信息，用来监控运行状态
         swoole_timer_tick(60000, function ($timer_id) use ($serv) {
             Func::Logs(json_encode($serv->stats()) . PHP_EOL, 3);
+            $logFile = BASEPATH . '/logs/error.log';
+            $maxSize = 100 * 1024 * 1024;
+            if (file_exists($logFile) && filesize($logFile) > $maxSize) {
+                file_put_contents($logFile, '');
+            }
         });
         swoole_timer_tick(AUTO_FIND_TIME, function ($timer_id) use ($serv) {
             global $table, $bootstrap_nodes;
@@ -54,6 +59,7 @@ class MySwoole
         } catch (Exception $e) {
             echo $e->getMessage();
         }
+        return true;
     }
 
     public static function task(Swoole\Server $server, Swoole\Server\Task $task)
