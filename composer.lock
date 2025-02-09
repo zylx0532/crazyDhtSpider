@@ -8,17 +8,23 @@
     "packages": [
         {
             "name": "catfan/medoo",
-            "version": "v2.1.10",
+            "version": "v2.1.12",
             "source": {
                 "type": "git",
                 "url": "https://github.com/catfan/Medoo.git",
-                "reference": "eb1ad19d127bd358b9a44abc60166b4a2c19a988"
+                "reference": "d1ff4e0e873a3e032e3d8804031dd6be4e013b22"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/catfan/Medoo/zipball/eb1ad19d127bd358b9a44abc60166b4a2c19a988",
-                "reference": "eb1ad19d127bd358b9a44abc60166b4a2c19a988",
-                "shasum": ""
+                "url": "https://api.github.com/repos/catfan/Medoo/zipball/d1ff4e0e873a3e032e3d8804031dd6be4e013b22",
+                "reference": "d1ff4e0e873a3e032e3d8804031dd6be4e013b22",
+                "shasum": "",
+                "mirrors": [
+                    {
+                        "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
+                        "preferred": true
+                    }
+                ]
             },
             "require": {
                 "ext-pdo": "*",
@@ -80,26 +86,33 @@
                     "type": "open_collective"
                 }
             ],
-            "time": "2023-06-10T07:54:55+00:00"
+            "time": "2024-02-03T11:28:59+00:00"
         },
         {
             "name": "rhilip/bencode",
-            "version": "v2.3.3",
+            "version": "v2.4.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Rhilip/Bencode.git",
-                "reference": "fd37d13bb745352d40879dbbfa6da85af91e49f1"
+                "reference": "67a580fbc50ddec5fc01df67202619461b0fd643"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Rhilip/Bencode/zipball/fd37d13bb745352d40879dbbfa6da85af91e49f1",
-                "reference": "fd37d13bb745352d40879dbbfa6da85af91e49f1",
-                "shasum": ""
+                "url": "https://api.github.com/repos/Rhilip/Bencode/zipball/67a580fbc50ddec5fc01df67202619461b0fd643",
+                "reference": "67a580fbc50ddec5fc01df67202619461b0fd643",
+                "shasum": "",
+                "mirrors": [
+                    {
+                        "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
+                        "preferred": true
+                    }
+                ]
             },
             "require": {
-                "php": "^7.3|^8.0"
+                "php": "^7.3|>=8.0"
             },
             "require-dev": {
+                "ext-json": "*",
                 "phpunit/phpunit": "^9.0"
             },
             "suggest": {
@@ -129,9 +142,9 @@
             ],
             "support": {
                 "issues": "https://github.com/Rhilip/Bencode/issues",
-                "source": "https://github.com/Rhilip/Bencode/tree/v2.3.3"
+                "source": "https://github.com/Rhilip/Bencode/tree/v2.4.4"
             },
-            "time": "2023-05-27T01:47:00+00:00"
+            "time": "2025-02-04T03:05:33+00:00"
         },
         {
             "name": "swoole/ide-helper",
@@ -145,7 +158,13 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/swoole/ide-helper/zipball/d100c446b2e3d56430cbcab5dc3fa20a9f35c4ef",
                 "reference": "d100c446b2e3d56430cbcab5dc3fa20a9f35c4ef",
-                "shasum": ""
+                "shasum": "",
+                "mirrors": [
+                    {
+                        "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
+                        "preferred": true
+                    }
+                ]
             },
             "type": "library",
             "notification-url": "https://packagist.org/downloads/",
