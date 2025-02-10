@@ -8,25 +8,26 @@ class MySwoole
             swoole_set_process_name("php_dht_client_task_worker");
         } else {
             swoole_set_process_name("php_dht_client_event_worker");
+            swoole_timer_tick(AUTO_FIND_TIME, function ($timer_id) use ($serv) {
+                global $table, $bootstrap_nodes;
+                if (count($table) == 0) {
+                    DhtServer::join_dht($table, $bootstrap_nodes);
+                } else {
+                    if ($serv->stats()['task_idle_worker_num'] > 20) {
+                        DhtServer::auto_find_node($table, $bootstrap_nodes);
+                    }
+                }
+            });
         }
         //每分钟向文件覆盖写入一次work status信息，用来监控运行状态
         swoole_timer_tick(60000, function ($timer_id) use ($serv) {
             Func::Logs(json_encode($serv->stats()) . PHP_EOL, 3);
+            gc_mem_caches(); //清理内存碎片
+            gc_collect_cycles();
             $logFile = BASEPATH . '/logs/error.log';
             $maxSize = 100 * 1024 * 1024;
             if (file_exists($logFile) && filesize($logFile) > $maxSize) {
                 file_put_contents($logFile, '');
-            }
-        });
-        swoole_timer_tick(AUTO_FIND_TIME, function ($timer_id) use ($serv) {
-            global $table, $bootstrap_nodes;
-            gc_mem_caches(); //清理内存碎片
-            if (count($table) == 0) {
-                DhtServer::join_dht($table, $bootstrap_nodes);
-            } else {
-                 if ($serv->stats()['idle_worker_num'] > 30) {
-                    DhtServer::auto_find_node($table, $bootstrap_nodes);
-                }
             }
         });
     }
