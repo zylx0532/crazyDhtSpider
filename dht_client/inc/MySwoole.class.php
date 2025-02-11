@@ -4,6 +4,10 @@ class MySwoole
 {
     public static function workStart($serv, $worker_id)
     {
+        swoole_timer_tick(60000, function ($timer_id) use ($serv) {
+            gc_mem_caches();
+            gc_collect_cycles();
+        });
         if ($worker_id >= $serv->setting['worker_num']) {
             swoole_set_process_name("php_dht_client_task_worker");
         } else {
