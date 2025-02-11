@@ -13,25 +13,24 @@ class DbPool
             'server' => $database_config['db']['host'],
             'username' => $database_config['db']['user'],
             'password' => $database_config['db']['pass'],
+            'charset' => 'utf8mb4'
         ]);
     }
-    public static function sourceQuery($rs,$bt_data):void
+
+    public static function checkInfoHash($infohash): bool
     {
-        $data = self::medoo()->select("history", ['infohash'], [
-            "infohash" => $rs['infohash']
+        $info = self::medoo()->select("history", "infohash", [
+            "infohash" => $infohash
         ]);
-        if (!empty($data)) {
+        if (!empty($info)) {
             self::medoo()->update("bt", [
-                "hot[+]" => 1,
-                "lasttime" => date('Y-m-d H:i:s'),
+                "hot" => Medoo::raw("hot + 1")
             ], [
-                "infohash" => $rs['infohash']
+                "infohash" => $infohash
             ]);
+            return true;
         } else {
-            self::medoo()->insert("history", [
-                "infohash" => $rs['infohash']
-            ]);
-            self::medoo()->insert("bt", $bt_data);
+            return false;
         }
     }
 }

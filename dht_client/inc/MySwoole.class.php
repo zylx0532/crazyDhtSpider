@@ -9,27 +9,16 @@ class MySwoole
         } else {
             swoole_set_process_name("php_dht_client_event_worker");
             swoole_timer_tick(AUTO_FIND_TIME, function ($timer_id) use ($serv) {
-                global $table, $bootstrap_nodes;
+                global $table, $bootstrap_nodes, $config;
                 if (count($table) == 0) {
                     DhtServer::join_dht($table, $bootstrap_nodes);
                 } else {
-                    if ($serv->stats()['task_idle_worker_num'] > 20) {
+                    if ($serv->stats()['task_idle_worker_num'] < floor($config['task_worker_num'] / 3)) {
                         DhtServer::auto_find_node($table, $bootstrap_nodes);
                     }
                 }
             });
         }
-        //每分钟向文件覆盖写入一次work status信息，用来监控运行状态
-        swoole_timer_tick(60000, function ($timer_id) use ($serv) {
-            Func::Logs(json_encode($serv->stats()) . PHP_EOL, 3);
-            gc_mem_caches(); //清理内存碎片
-            gc_collect_cycles();
-            $logFile = BASEPATH . '/logs/error.log';
-            $maxSize = 100 * 1024 * 1024;
-            if (file_exists($logFile) && filesize($logFile) > $maxSize) {
-                file_put_contents($logFile, '');
-            }
-        });
     }
 
     /*
@@ -69,6 +58,9 @@ class MySwoole
         $ip = $task->data['ip'];
         $port = $task->data['port'];
         $infohash = unserialize($task->data['infohash']);
+        if (DbPool::checkInfoHash($infohash)) {
+            $task->finish("OK");
+        }
         $client = new Swoole\Client(SWOOLE_SOCK_TCP, SWOOLE_SOCK_SYNC);
         if (!@$client->connect($ip, $port, 0.8)) {
             @$client->close(true);
@@ -89,5 +81,17 @@ class MySwoole
 
     public static function finish($serv, $task_id, $data)
     {
+    }
+
+    public static function start($serv)
+    {
+        swoole_timer_tick(10000, function ($timer_id) use ($serv) {
+            Func::Logs(json_encode($serv->stats()) . PHP_EOL, 3);
+            $logFile = BASEPATH . '/logs/error.log';
+            $maxSize = 1024 * 1024;
+            if (file_exists($logFile) && filesize($logFile) > $maxSize) {
+                file_put_contents($logFile, '');
+            }
+        });
     }
 }
