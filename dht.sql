@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.1.1
+-- version 5.2.2
 -- https://www.phpmyadmin.net/
 --
--- 主机： localhost
--- 生成日期： 2022-07-26 18:31:21
--- 服务器版本： 5.6.50-log
--- PHP 版本： 8.1.7
+-- 主机： host-lax-ryzen.ixiaofeng.com
+-- 生成日期： 2025-02-11 13:27:46
+-- 服务器版本： 5.7.44
+-- PHP 版本： 8.2.27
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -33,12 +33,12 @@ CREATE TABLE `bt` (
   `length` bigint(20) NOT NULL DEFAULT '0' COMMENT '文件大小',
   `piece_length` int(11) NOT NULL DEFAULT '0' COMMENT '种子大小',
   `infohash` char(40) NOT NULL COMMENT '种子哈希值',
-  `files` text COMMENT '文件列表',
+  `files` mediumtext COMMENT '文件列表',
   `hits` int(11) NOT NULL DEFAULT '0' COMMENT '点击量',
   `hot` int(11) NOT NULL DEFAULT '1' COMMENT '热度',
   `time` datetime NOT NULL COMMENT '收录时间',
-  `lasttime` datetime NOT NULL DEFAULT '0000-00-00 00:00:00' COMMENT '最后下载时间'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8
+  `lasttime` datetime NOT NULL COMMENT '最后下载时间'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4
 PARTITION BY KEY (infohash)
 (
 PARTITION p0 ENGINE=InnoDB,
@@ -82,7 +82,7 @@ PARTITION p30 ENGINE=InnoDB
 
 CREATE TABLE `history` (
   `infohash` char(40) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- 转储表的索引
