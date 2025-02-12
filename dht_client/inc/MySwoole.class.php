@@ -17,7 +17,7 @@ class MySwoole
                 if (count($table) == 0) {
                     DhtServer::join_dht($table, $bootstrap_nodes);
                 } else {
-                    if ($serv->stats()['task_idle_worker_num'] < floor($config['task_worker_num'] / 3)) {
+                    if ($serv->stats()['task_idle_worker_num'] > floor($config['task_worker_num'] / 5)) {
                         DhtServer::auto_find_node($table, $bootstrap_nodes);
                     }
                 }
@@ -33,6 +33,10 @@ class MySwoole
     */
     public static function packet($serv, $data, $fdinfo)
     {
+        global $config;
+        if ($serv->stats()['task_idle_worker_num'] < floor($config['task_worker_num'] / 5)) {
+            return false;
+        }
         if (strlen($data) == 0) {
             return false;
         }
