@@ -62,10 +62,6 @@ class MySwoole
         $ip = $task->data['ip'];
         $port = $task->data['port'];
         $infohash = unserialize($task->data['infohash']);
-        if (DbPool::checkInfoHash($infohash)) {
-            $task->finish("OK");
-            return;
-        }
         $client = new Swoole\Client(SWOOLE_SOCK_TCP, SWOOLE_SOCK_SYNC);
         if (!@$client->connect($ip, $port, 0.8)) {
             @$client->close(true);
@@ -95,12 +91,12 @@ class MySwoole
             $logFile = BASEPATH . '/logs/error.log';
             $maxSize = 1024 * 1024;
             if (file_exists($logFile) && filesize($logFile) > $maxSize) {
-                file_put_contents($logFile, '');
+                $handle = fopen($logFile, 'w');
+                if ($handle) {
+                    ftruncate($handle, 0);
+                    fclose($handle);
+                }
             }
-        });
-
-        swoole_timer_tick(60000, function ($timer_id) use ($serv) {
-            DbPool::healthCheck();
         });
     }
 }
