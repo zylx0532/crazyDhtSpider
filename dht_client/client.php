@@ -30,6 +30,7 @@ $bootstrap_nodes = array(
     array('dht.transmissionbt.com', 6881),
     array('router.utorrent.com', 6881)
 );
+DbPool::initPool();
 
 Func::Logs(date('Y-m-d H:i:s', time()) . " - 服务启动..." . PHP_EOL, 1);
 Swoole\Coroutine::set(['hook_flags' => SWOOLE_HOOK_ALL]);

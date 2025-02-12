@@ -62,6 +62,7 @@ class MySwoole
         $ip = $task->data['ip'];
         $port = $task->data['port'];
         $infohash = unserialize($task->data['infohash']);
+        DbPool::healthCheck();
         if (DbPool::checkInfoHash($infohash)) {
             $task->finish("OK");
         }

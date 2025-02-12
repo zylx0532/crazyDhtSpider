@@ -4,6 +4,7 @@
         "catfan/medoo": "^2.1",
         "swoole/ide-helper": "^4.8",
         "rhilip/bencode": "^2.3",
-      "ext-mbstring": "*"
+      "ext-mbstring": "*",
+      "ext-pdo": "*"
     }
 }
