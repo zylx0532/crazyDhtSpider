@@ -65,6 +65,7 @@ class MySwoole
         DbPool::healthCheck();
         if (DbPool::checkInfoHash($infohash)) {
             $task->finish("OK");
+            return;
         }
         $client = new Swoole\Client(SWOOLE_SOCK_TCP, SWOOLE_SOCK_SYNC);
         if (!@$client->connect($ip, $port, 0.8)) {

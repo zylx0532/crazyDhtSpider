@@ -6,7 +6,7 @@ use Swoole\Database\PDOPool;
 class DbPool
 {
     private static $pool;
-    private const POOL_SIZE = 16;  // 根据服务器配置调整连接池大小
+    private const POOL_SIZE = 20;  // 根据服务器配置调整连接池大小
 
     // 初始化连接池（服务启动时调用）
     public static function initPool()
