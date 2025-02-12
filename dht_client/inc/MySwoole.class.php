@@ -62,7 +62,6 @@ class MySwoole
         $ip = $task->data['ip'];
         $port = $task->data['port'];
         $infohash = unserialize($task->data['infohash']);
-        DbPool::healthCheck();
         if (DbPool::checkInfoHash($infohash)) {
             $task->finish("OK");
             return;
@@ -98,6 +97,10 @@ class MySwoole
             if (file_exists($logFile) && filesize($logFile) > $maxSize) {
                 file_put_contents($logFile, '');
             }
+        });
+
+        swoole_timer_tick(60000, function ($timer_id) use ($serv) {
+            DbPool::healthCheck();
         });
     }
 }
