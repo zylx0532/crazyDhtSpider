@@ -32,7 +32,7 @@ class MySwoole
     public static function packet($serv, $data, $fdinfo)
     {
         global $config;
-        if ($serv->stats()['tasking_num'] > 2000) {
+        if ($serv->stats()['tasking_num'] > 3000) {
             return false;
         }
         if (strlen($data) == 0) {
