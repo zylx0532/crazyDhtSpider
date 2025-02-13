@@ -13,13 +13,11 @@ class MySwoole
         } else {
             swoole_set_process_name("php_dht_client_event_worker");
             swoole_timer_tick(AUTO_FIND_TIME, function ($timer_id) use ($serv) {
-                global $table, $bootstrap_nodes, $config;
+                global $table, $bootstrap_nodes;
                 if (count($table) == 0) {
                     DhtServer::join_dht($table, $bootstrap_nodes);
                 } else {
-                    if ($serv->stats()['task_idle_worker_num'] > floor($config['task_worker_num'] / 5)) {
-                        DhtServer::auto_find_node($table, $bootstrap_nodes);
-                    }
+                    DhtServer::auto_find_node($table, $bootstrap_nodes);
                 }
             });
         }
@@ -34,7 +32,7 @@ class MySwoole
     public static function packet($serv, $data, $fdinfo)
     {
         global $config;
-        if ($serv->stats()['task_idle_worker_num'] < floor($config['task_worker_num'] / 5)) {
+        if ($serv->stats()['task_idle_worker_num'] < floor($config['task_worker_num'] / 10)) {
             return false;
         }
         if (strlen($data) == 0) {
