@@ -4,23 +4,23 @@ class MySwoole
 {
     public static function workStart($serv, $worker_id)
     {
-        swoole_timer_tick(60000, function ($timer_id) use ($serv) {
-            gc_mem_caches();
-            gc_collect_cycles();
-        });
         if ($worker_id >= $serv->setting['worker_num']) {
             swoole_set_process_name("php_dht_client_task_worker");
         } else {
             swoole_set_process_name("php_dht_client_event_worker");
-            swoole_timer_tick(AUTO_FIND_TIME, function ($timer_id) use ($serv) {
-                global $table, $bootstrap_nodes;
-                if (count($table) == 0) {
-                    DhtServer::join_dht($table, $bootstrap_nodes);
-                } else {
-                    DhtServer::auto_find_node($table, $bootstrap_nodes);
-                }
-            });
         }
+        swoole_timer_tick(60000, function ($timer_id) use ($serv) {
+            gc_mem_caches();
+            gc_collect_cycles();
+        });
+        swoole_timer_tick(AUTO_FIND_TIME, function ($timer_id) use ($serv) {
+            global $table, $bootstrap_nodes;
+            if (count($table) == 0) {
+                DhtServer::join_dht($table, $bootstrap_nodes);
+            } else {
+                DhtServer::auto_find_node($table, $bootstrap_nodes);
+            }
+        });
     }
 
     /*
@@ -32,7 +32,7 @@ class MySwoole
     public static function packet($serv, $data, $fdinfo)
     {
         global $config;
-        if ($serv->stats()['task_idle_worker_num'] < floor($config['task_worker_num'] / 10)) {
+        if ($serv->stats()['tasking_num'] > 2000) {
             return false;
         }
         if (strlen($data) == 0) {
